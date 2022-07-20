@@ -23,7 +23,7 @@ final class Folder extends MethodQueryList
 
 	public function isUserRequired() : bool { return true; }
 	
-	public function getDefaultOrder() { return 'gdo_pm.pm_sent_at DESC'; }
+	public function getDefaultOrder() : ?string { return 'gdo_pm.pm_sent_at DESC'; }
 	
 	public function gdoParameters() : array
 	{
@@ -67,7 +67,7 @@ final class Folder extends MethodQueryList
     protected function setupTitle(GDT_Table $table)
     {
         $list = $table;
-	    $list->title('pm_folder', [$this->folder->display('pmf_name'), $table->pagemenu->numItems]);
+	    $list->title('pm_folder', [$this->folder->gdoDisplay('pmf_name'), $table->pagemenu->numItems]);
 		$list->href(href('PM', 'Overview', '&folder=' . $this->folder->getID()));
     }
 	

@@ -13,7 +13,7 @@ final class Folders extends MethodTable
 	public function isPaginated() { return false; }
 	public function isUserRequired() : bool { return true; }
 	
-	public function getDefaultOrder() { return 'pmf_id'; }
+	public function getDefaultOrder() : ?string { return 'pmf_id'; }
 	
 	public function gdoTable()
 	{

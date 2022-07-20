@@ -50,7 +50,7 @@ final class EMailOnPM
 			$receiver->renderUserName(),
 			$sender->renderUserName(),
 			$sitename,
-			$pm->display('pm_title'),
+			$pm->gdoDisplay('pm_title'),
 			$pm->displayMessage(),
 			GDT_Link::anchor(href('PM', 'Delete', "&id={$pm->getID()}&token={$pm->gdoHashcode()}")),
 		)));
