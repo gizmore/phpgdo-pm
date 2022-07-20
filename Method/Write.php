@@ -172,7 +172,7 @@ final class Write extends MethodForm
 	 * @var GDO_PM
 	 */
 	private $pmTo;
-	public function afterExecute()
+	public function afterExecute() : void
 	{
 	    if ($this->pressedButton === 'submit')
 	    {

@@ -55,7 +55,7 @@ final class EMailOnPM
 			GDT_Link::anchor(href('PM', 'Delete', "&id={$pm->getID()}&token={$pm->gdoHashcode()}")),
 		)));
 		$email->sendToUser($receiver);
-		return GDT_Success::responseWith('msg_pm_mail_sent', [$receiver->renderUserName()]);
+		return GDT_Success::make()->text('msg_pm_mail_sent', [$receiver->renderUserName()]);
 	}
 
 }

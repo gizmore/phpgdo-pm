@@ -13,7 +13,7 @@ use GDO\UI\GDT_Message;
 use GDO\User\GDT_User;
 use GDO\User\GDO_User;
 use GDO\UI\GDT_Title;
-use GDO\DB\GDT_Index;
+use GDO\Core\GDT_Index;
 use GDO\Date\GDT_Timestamp;
 
 /**
@@ -74,17 +74,17 @@ final class GDO_PM extends GDO
 	/**
 	 * @return GDO_User
 	 */
-	public function getSender() { return $this->getValue('pm_from'); }
+	public function getSender() { return $this->gdoValue('pm_from'); }
 	
 	/**
 	 * @return GDO_User
 	 */
-	public function getReceiver() { return $this->getValue('pm_to'); }
+	public function getReceiver() { return $this->gdoValue('pm_to'); }
 	
 	/**
 	 * @return GDO_User
 	 */
-	public function getOwner() { return $this->getValue('pm_owner'); }
+	public function getOwner() { return $this->gdoValue('pm_owner'); }
 	public function getOwnerID() { return $this->gdoVar('pm_owner'); }
 	public function getOtherID() { return $this->gdoVar('pm_other'); }
 
@@ -109,7 +109,7 @@ final class GDO_PM extends GDO
 	/**
 	 * @return self
 	 */
-	public function getOtherPM() { return $this->getValue('pm_other'); }
+	public function getOtherPM() { return $this->gdoValue('pm_other'); }
 
 	public function getFromID() { return $this->gdoVar('pm_from'); }
 	public function getToID() { return $this->gdoVar('pm_to'); }
@@ -117,7 +117,7 @@ final class GDO_PM extends GDO
 	/**
 	 * @return self
 	 */
-	public function getParent() { return $this->getValue('pm_parent'); }
+	public function getParent() { return $this->gdoValue('pm_parent'); }
 	
 	/**
 	 * @param GDO_User $owner
