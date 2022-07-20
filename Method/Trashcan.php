@@ -74,11 +74,11 @@ final class Trashcan extends MethodQueryTable
 	public function createTable(GDT_Table $table)
 	{
 		$table->title(t('name_trashcan'));
-		$table->actions()->addFields([
+		$table->actions()->addFields(
 			GDT_Submit::make('restore')->primary()->label('btn_restore'),
 			GDT_Submit::make('delete')->secondary()->label('btn_delete'),
 			GDT_Submit::make('trash')->unadvised()->label('btn_empty'),
-		]);
+		);
 	}
 	
 	###############

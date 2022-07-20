@@ -24,10 +24,10 @@ $li->creatorHeader($title);
 // $li->avatar(GDT_ProfileLink::make()->forUser($otherUser)->withAvatar());
 // $li->title(GDT_Link::make()->href($href)->label($pm->displayTitle()));
 // $li->subtitle(
-//     GDT_Container::make()->addFields([
+//     GDT_Container::make()->addFields(
 //         GDT_Title::make()->titleEscaped(false)->title($fromto, [GDT_ProfileLink::make()->forUser($otherUser)->withNickname()->render()]),
 //         $pm->gdoColumn('pm_sent_at'),
-//     ]));
+//     ));
 
 // $li->editorFooter();
 

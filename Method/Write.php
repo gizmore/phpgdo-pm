@@ -75,10 +75,10 @@ final class Write extends MethodForm
 			$table->gdoColumnCopy('pm_message')->initial($message),
 			GDT_AntiCSRF::make(),
 		));
-		$form->actions()->addFields([
+		$form->actions()->addFields(
 			GDT_Submit::make(),
 		    GDT_Submit::make('btn_preview')
-		]);
+		);
 	}
 	
 	private function initialValues(GDT_Form $form)

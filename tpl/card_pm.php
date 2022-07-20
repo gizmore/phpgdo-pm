@@ -29,11 +29,11 @@ $card->content(GDT_HTML::withHTML($html));
 
 if (!isset($noactions))
 {
-    $card->actions()->addFields([
+    $card->actions()->addFields(
     	GDT_Button::make('quote')->gdo($pm)->icon('quote'),
     	GDT_Button::make('reply')->gdo($pm)->icon('reply'),
     	GDT_Button::make('delete')->gdo($pm)->icon('delete'),
-    ]);
+    );
 }
 
 echo $card->renderCell();
