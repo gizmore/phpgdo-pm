@@ -54,7 +54,7 @@ final class GDO_PM extends GDO
 	##############
 	### Render ###
 	##############
-	public function renderList() { return GDT_Template::php('PM', 'listitem_pm.php', ['pm' => $this]); }
+	public function renderList() : string { return GDT_Template::php('PM', 'listitem_pm.php', ['pm' => $this]); }
 	
 	##################
 	### Convinient ###
