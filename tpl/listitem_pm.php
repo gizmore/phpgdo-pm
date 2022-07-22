@@ -25,16 +25,16 @@ $li->creatorHeader($title);
 // $li->title(GDT_Link::make()->href($href)->label($pm->displayTitle()));
 // $li->subtitle(
 //     GDT_Container::make()->addFields(
-//         GDT_Title::make()->titleEscaped(false)->title($fromto, [GDT_ProfileLink::make()->forUser($otherUser)->withNickname()->render()]),
+//         GDT_Title::make()->titleEscaped(false)->title($fromto, [GDT_ProfileLink::make()->forUser($otherUser)->nickname()->render()]),
 //         $pm->gdoColumn('pm_sent_at'),
 //     ));
 
 // $li->editorFooter();
 
-$li->actions()->addFields(array(
+$li->actions()->addFields(
 	GDT_Button::make()->href($href)->icon('view')->label('btn_view'),
 	GDT_Action::make()->href($hrefDelete)->icon('delete')->label('btn_delete'),
-));
+);
 
 $li->addClass($pm->isRead() ? 'pm-read' : 'unread pm-unread');
 

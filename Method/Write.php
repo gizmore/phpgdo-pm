@@ -68,13 +68,13 @@ final class Write extends MethodForm
 		list($username, $title, $message) = $this->initialValues($form);
 		$table = GDO_PM::table();
 		$to = GDT_User::make('pm_write_to')->notNull()->initial($username);
-		$form->addFields(array(
+		$form->addFields(
 			$to,
 			GDT_Validator::make()->validator($form, $to, [$this, 'validateCanSend']),
 			$table->gdoColumnCopy('pm_title')->initial($title),
 			$table->gdoColumnCopy('pm_message')->initial($message),
 			GDT_AntiCSRF::make(),
-		));
+		);
 		$form->actions()->addFields(
 			GDT_Submit::make(),
 		    GDT_Submit::make('btn_preview')
@@ -134,7 +134,7 @@ final class Write extends MethodForm
 	public function formValidated(GDT_Form $form)
 	{
 		$this->deliver(GDO_User::current(), $form->getFormValue('pm_write_to'), $form->getFormVar('pm_title'), $form->getFormVar('pm_message'), $this->reply);
-		return Website::redirectMessage('msg_pm_sent', null, href('PM', 'Overview'));
+		return $this->redirectMessage('msg_pm_sent', null, href('PM', 'Overview'));
 	}
 	
 	public function deliver(GDO_User $from, GDO_User $to, $title, $message, GDO_PM $parent=null)

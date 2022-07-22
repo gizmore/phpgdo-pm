@@ -21,7 +21,7 @@ else
 if (module_enabled('Profile'))
 {
     $link = GDT_ProfileLink::make()->forUser($other)->
-        withAvatar()->withNickname()->render();
+        withAvatar()->nickname()->render();
 }
 else
 {
