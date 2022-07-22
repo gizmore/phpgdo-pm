@@ -25,7 +25,7 @@ final class GDO_PMFolder extends GDO
 	###########
 	### GDO ###
 	###########
-	public function memCached() { return false; }
+	public function memCached() : bool { return false; }
 	public function gdoColumns() : array
 	{
 		return [
@@ -37,7 +37,7 @@ final class GDO_PMFolder extends GDO
 	}
 	public function getID() : ?string { return $this->gdoVar('pmf_id'); }
 	public function getUserID() { return $this->gdoVar('pmf_user'); }
-	public function getName() { return $this->gdoVar('pmf_name'); }
+	public function getName() : ?string { return $this->gdoVar('pmf_name'); }
 	public function displayName() { return $this->gdoDisplay('pmf_name'); }
 	
 	/**
