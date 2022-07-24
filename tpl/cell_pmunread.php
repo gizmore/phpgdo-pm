@@ -1,4 +1,5 @@
 <?php
+namespace GDO\PM\tpl;
 use GDO\PM\GDO_PM;
 use GDO\Core\GDT_Template;
 use GDO\UI\GDT_Icon;

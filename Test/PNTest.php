@@ -1,26 +1,28 @@
 <?php
 namespace GDO\PM\Test;
 
-use GDO\Tests\MethodTest;
+use GDO\Tests\GDT_MethodTest;
 use GDO\Tests\TestCase;
 use GDO\PM\Method\Write;
 use function PHPUnit\Framework\assertGreaterThanOrEqual;
 use function PHPUnit\Framework\assertEquals;
+use GDO\PM\Method\Folder;
+use GDO\PM\Method\Folders;
 
 final class PNTest extends TestCase
 {
     public function testDefaultMethods()
     {
-        MethodTest::make()->defaultMethod('PM', 'Folders');
+    	GDT_MethodTest::make()->method(Folders::make())->execute();
         $this->assert200("Test PM::Folders");
-        MethodTest::make()->defaultMethod('PM', 'Folder');
+        GDT_MethodTest::make()->method(Folder::make())->execute();
         $this->assert200("Test PM::Folder");
     }
     
     public function testPreview()
     {
         $p = ['pm_title' => 'TITLE', 'pm_message' => 'MESSAGE', 'pm_write_to' => '3'];
-        $r = MethodTest::make()->method(Write::make())->parameters($p)->execute('btn_preview');
+        $r = GDT_MethodTest::make()->method(Write::make())->inputs($p)->execute('btn_preview');
         $html = $r->render();
         
         $n = substr_count($html, 'MESSAGE');

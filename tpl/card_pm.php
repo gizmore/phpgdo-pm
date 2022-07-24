@@ -1,4 +1,5 @@
 <?php
+namespace GDO\PM\tpl;
 use GDO\PM\GDO_PM;
 use GDO\UI\GDT_Button;
 use GDO\UI\GDT_HTML;
@@ -8,8 +9,6 @@ use GDO\UI\GDT_HR;
 
 /** @var $pm GDO_PM **/
 /** @var $noactions bool **/
-
-// $creator = $pm->getSender();
 
 $card = GDT_Card::make('pm-'.$pm->getID());
 $card->gdo($pm);

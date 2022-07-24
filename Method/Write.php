@@ -18,8 +18,8 @@ use GDO\User\GDO_User;
 use GDO\Util\Common;
 use GDO\Util\Strings;
 use GDO\Form\GDT_Validator;
-use GDO\Core\Website;
 use GDO\UI\GDT_Message;
+use GDO\UI\GDT_Page;
 
 final class Write extends MethodForm
 {
@@ -71,8 +71,8 @@ final class Write extends MethodForm
 		$form->addFields(
 			$to,
 			GDT_Validator::make()->validator($form, $to, [$this, 'validateCanSend']),
-			$table->gdoColumnCopy('pm_title')->initial($title),
-			$table->gdoColumnCopy('pm_message')->initial($message),
+			$table->gdoColumn('pm_title')->input($title),
+			$table->gdoColumn('pm_message')->input($message),
 			GDT_AntiCSRF::make(),
 		);
 		$form->actions()->addFields(
@@ -181,7 +181,7 @@ final class Write extends MethodForm
     			$pmTo = $this->pmTo;
     			$response = EMailOnPM::deliver($pmTo);
     			GDT_Hook::callWithIPC('PMSent', $pmTo);
-    			return $response;
+    			GDT_Page::instance()->topResponse()->addField($response);
     		}
 	    }
 	}

@@ -1,6 +1,7 @@
 <?php
 namespace GDO\PM\Method;
 
+use GDO\Core\GDO;
 use GDO\DB\Database;
 use GDO\Form\GDT_Submit;
 use GDO\PM\GDT_PMFromTo;
@@ -31,7 +32,7 @@ final class Trashcan extends MethodQueryTable
 	    return t('list_pm_trashcan', [$this->table->getResult()->numRows()]);
 	}
 	
-	public function gdoTable()
+	public function gdoTable() : GDO
 	{
 	    return GDO_PM::table();
 	}

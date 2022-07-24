@@ -4,7 +4,7 @@ namespace GDO\PM;
 use GDO\Core\GDO;
 use GDO\Core\GDT_AutoInc;
 use GDO\Core\GDT_CreatedAt;
-use GDO\DB\GDT_DeletedAt;
+use GDO\Core\GDT_DeletedAt;
 use GDO\Core\GDT_Object;
 use GDO\Date\GDT_DateTime;
 use GDO\Date\Time;

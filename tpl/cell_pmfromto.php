@@ -1,4 +1,5 @@
 <?php 
+namespace GDO\PM\tpl;
 use GDO\PM\GDT_PMFromTo;
 use GDO\PM\GDO_PM;
 use GDO\User\GDO_User;

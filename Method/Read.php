@@ -6,15 +6,57 @@ use GDO\Date\Time;
 use GDO\PM\GDO_PM;
 use GDO\PM\PMMethod;
 use GDO\User\GDO_User;
-use GDO\Util\Common;
+use GDO\Core\GDT_Object;
 
+/**
+ * Read a PM.
+ * 
+ * @author gizmore
+ * @version 7.0.1
+ */
 final class Read extends Method
 {
 	use PMMethod;
 	
+	public function getMethodTitle() : string
+	{
+		$user = GDO_User::current();
+		$pm = $this->getPM();
+		if ($pm->isFrom($user))
+		{
+			return t('pm_to', [$pm->getReceiver()->renderUserName()]);
+		}
+		elseif ($pm->isTo($user))
+		{
+			return t('pm_by', [$pm->getSender()->renderUserName()]);
+		}
+		else
+		{
+			return t('err_pm');
+		}
+	}
+	
+	private GDO_PM $pm;
+	
+	private function getPM() : GDO_PM
+	{
+		if (!isset($this->pm))
+		{
+			$this->pm = $this->gdoParameterValue('id');
+		}
+		return $this->pm;
+	}
+	
+	public function gdoParameters() : array
+	{
+		return [
+			GDT_Object::make('id')->table(GDO_PM::table())->notNull(),
+		];
+	}
+	
 	public function execute()
 	{
-		if (!($pm = GDO_PM::getByIdAndUser(Common::getRequestString('id'), GDO_User::current())))
+		if (!($pm = $this->getPM()))
 		{
 			return $this->error('err_pm');
 		}

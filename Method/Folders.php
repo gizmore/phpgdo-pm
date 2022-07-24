@@ -4,6 +4,7 @@ namespace GDO\PM\Method;
 use GDO\DB\ArrayResult;
 use GDO\PM\GDO_PMFolder;
 use GDO\Table\MethodTable;
+use GDO\Core\GDO;
 use GDO\Core\GDT_Template;
 use GDO\User\GDO_User;
 
@@ -15,7 +16,7 @@ final class Folders extends MethodTable
 	
 	public function getDefaultOrder() : ?string { return 'pmf_id'; }
 	
-	public function gdoTable()
+	public function gdoTable() : GDO
 	{
 	    return GDO_PMFolder::table();
 	}
@@ -34,7 +35,7 @@ final class Folders extends MethodTable
 // 	{
 // 	}
 	
-	public function getResult()
+	public function getResult() : ArrayResult
 	{
 		$folders = GDO_PMFolder::getFolders(GDO_User::current()->getID());
 		return new ArrayResult($folders, GDO_PMFolder::table());

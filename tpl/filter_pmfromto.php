@@ -1,4 +1,7 @@
-<?php /** @var $field \GDO\PM\GDT_PMFromTo **/ ?>
+<?php
+namespace GDO\PM\tpl;
+/** @var $field \GDO\PM\GDT_PMFromTo **/
+?>
 <input
  name="f[<?= $field->name?>]"
  type="text"

@@ -1,7 +1,9 @@
 <?php
+namespace GDO\PM\tpl;
+
 use GDO\PM\GDO_PM;
+use GDO\Table\GDT_ListItem;
 use GDO\User\GDO_User;
-use GDO\UI\GDT_ListItem;
 use GDO\UI\GDT_Action;
 use GDO\UI\GDT_Button;
 use GDO\UI\GDT_Title;

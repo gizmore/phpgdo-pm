@@ -1,4 +1,6 @@
-<?php /** @var $field \GDO\Core\GDT_Template **/
+<?php
+namespace GDO\PM\tpl;
+/** @var $field \GDO\Core\GDT_Template **/
 use GDO\UI\GDT_Link;
 $gdo = $field->gdo;
 
