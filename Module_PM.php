@@ -21,12 +21,12 @@ use GDO\UI\GDT_Page;
 /**
  * Private messaging module.
  * 
- * - Welcome PM
+ * - WelcomePM
  * - EmailOnPM
  * - Folders
  * 
  * @author gizmore
- * @version 6.10.3
+ * @version 7.0.1
  * @since 6.4.0
  */
 final class Module_PM extends GDO_Module
@@ -62,7 +62,7 @@ final class Module_PM extends GDO_Module
 			GDT_Int::make('pm_fname_len')->initial(GDT_Username::LENGTH)->max(GDT_Name::LENGTH),
 			GDT_Checkbox::make('pm_delete')->initial('1'),
 			GDT_Int::make('pm_limit_per_level')->initial('1000000')->unsigned(),
-		    GDT_Checkbox::make('pm_right_bar')->initial('1'),
+		    GDT_Checkbox::make('hook_sidebar')->initial('1'),
 		];
 	}
 	public function cfgRE() { return $this->getConfigValue('pm_re'); }
@@ -92,7 +92,7 @@ final class Module_PM extends GDO_Module
 		$level = $user->getLevel();
 		return $min + floor($level / $this->cfgLimitPerLevel());
 	}
-	public function cfgRightBar() { return $this->getConfigValue('pm_right_bar'); }
+	public function cfgRightBar() { return $this->getConfigValue('hook_sidebar'); }
 	
 	################
 	### Settings ###
@@ -100,7 +100,7 @@ final class Module_PM extends GDO_Module
 	public function getUserSettings()
 	{
 	    return [
-	        GDT_Link::make('link_pm_center')->href(href('PM', 'Overview')),
+	        GDT_Link::make('link_pm_center')->href(href('PM', 'Overview'))->noacl(),
 	        GDT_Level::make('pm_level')->initial('0')->notNull()->label('pm_level'),
 	        GDT_Checkbox::make('pm_email')->initial('1'),
 	        GDT_Checkbox::make('pm_guests')->initial('0'),
@@ -110,7 +110,7 @@ final class Module_PM extends GDO_Module
 	public function getUserSettingBlobs()
 	{
 	    return [
-	        GDT_Message::make('signature')->max(4096)->label('signature'),
+	        GDT_Message::make('signature')->max(4096)->label('signature')->noacl(),
 	    ];
 	}
 	
@@ -157,7 +157,7 @@ final class Module_PM extends GDO_Module
     		    {
     		        $button->label('btn_pm_unread', [$count]);
     		    }
-    		    GDT_Page::$INSTANCE->rightBar()->addField($button);
+    		    GDT_Page::instance()->rightBar()->addField($button);
     		}
 	    }
 	}
