@@ -52,9 +52,11 @@ return [
 	'signature' => 'Your Signature',
 	'pm_guests' => 'Guests may PM you',
 	# Read
-	'pm_by' => 'From: %s',
-	'pm_to' => '  TO: %s',
-	'pm_sent' => 'sent on %s',
+	'pm_by' => 'From: %s, %s; %s',
+	'pm_to' => '  To: %s, %s; %s',
+	'pm_sent' => 'Sent on %s',
+	'pm_read' => 'Read %s ago',
+	'pm_unread' => 'Unread',
 	# Overview
 	'btn_move' => 'Move to folder',
 	'msg_pm_deleted' => 'There were %s PM deleted in total.',
@@ -70,8 +72,8 @@ return [
 	'reply' => 'Reply',
 	'quote' => 'Quote',
 	'show' => 'Show',
-	'pm_fromto_from' => 'From: %s',
-	'pm_fromto_to' => 'To: %s',
+// 	'pm_fromto_from' => 'From: %s',
+// 	'pm_fromto_to' => 'To: %s',
 	# Delete
 	'mt_pm_delete' => 'Delete PM',
 	# Folders
@@ -111,5 +113,9 @@ The %3$s Team',
 	'list_pm_trashcan' => '0 messages in the trashcan',
 	
 	# v7.0.1
-	
+	'mt_pm_folder' => 'PM Folder',
+	'mt_pm_folders' => 'PM Folders',
+	'mt_pm_trashcan' => 'PM Trashcan',
+	'mt_pm_reply' => 'Reply to PM',
+	'list_pm_folder' => '%s PM in %s',
 ];

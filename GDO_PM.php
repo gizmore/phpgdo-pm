@@ -6,7 +6,6 @@ use GDO\Core\GDT_AutoInc;
 use GDO\Core\GDT_CreatedAt;
 use GDO\Core\GDT_DeletedAt;
 use GDO\Core\GDT_Object;
-use GDO\Date\GDT_DateTime;
 use GDO\Date\Time;
 use GDO\Core\GDT_Template;
 use GDO\UI\GDT_Message;
@@ -20,7 +19,7 @@ use GDO\Date\GDT_Timestamp;
  * A PM entity.
  * 
  * @author gizmore
- * @version 6.11.0
+ * @version 7.0.1
  * @since 3.5.0
  */
 final class GDO_PM extends GDO
@@ -36,7 +35,7 @@ final class GDO_PM extends GDO
 			GDT_AutoInc::make('pm_id'),
 			GDT_CreatedAt::make('pm_sent_at'),
 			GDT_DeletedAt::make('pm_deleted_at'),
-			GDT_DateTime::make('pm_read_at'),
+			GDT_Timestamp::make('pm_read_at'),
 			GDT_User::make('pm_owner')->notNull(),
 		    GDT_User::make('pm_from')->cascadeNull()->label('from_user'),
 		    GDT_User::make('pm_to')->cascadeNull()->label('to_user'),
@@ -55,46 +54,33 @@ final class GDO_PM extends GDO
 	### Render ###
 	##############
 	public function renderList() : string { return GDT_Template::php('PM', 'listitem_pm.php', ['pm' => $this]); }
+	public function renderCard() : string { return GDT_Template::php('PM', 'card_pm.php', ['pm' => $this, 'noactions' => true]); }
 	
 	##################
 	### Convinient ###
 	##################
-	/**
-	 * @return GDT_Message
-	 */
-	public function messageColumn() { return $this->gdoColumn('pm_message'); }
-	public function isRead() { return $this->gdoVar('pm_read_at') !== null; }
-	public function displayDate() { return Time::displayDate($this->gdoVar('pm_sent_at')); }
-	public function getTitle() { return $this->gdoVar('pm_title'); }
-	public function displayTitle() { return $this->gdoDisplay('pm_title'); }
-	public function displayMessage() { return $this->messageColumn()->renderCell(); }
-	public function getMessage() { return $this->messageColumn()->getVarInput(); }
-	public function displaySignature() { return Module_PM::instance()->userSetting($this->getSender(), 'signature')->renderCell(); }
-	
-	/**
-	 * @return GDO_User
-	 */
-	public function getSender() { return $this->gdoValue('pm_from'); }
-	
-	/**
-	 * @return GDO_User
-	 */
-	public function getReceiver() { return $this->gdoValue('pm_to'); }
-	
-	/**
-	 * @return GDO_User
-	 */
-	public function getOwner() { return $this->gdoValue('pm_owner'); }
-	public function getOwnerID() { return $this->gdoVar('pm_owner'); }
-	public function getOtherID() { return $this->gdoVar('pm_other'); }
+	public function messageColumn() : GDT_Message { return $this->gdoColumn('pm_message'); }
+
+	public function isRead() : bool { return $this->gdoVar('pm_read_at') !== null; }
+	public function displayReadAgo() : string { return Time::displayAge($this->gdoVar('pm_read_at')); }
+	public function displayAge() : string { return Time::displayAge($this->gdoVar('pm_sent_at')); }
+	public function displayDate() : string { return Time::displayDate($this->gdoVar('pm_sent_at')); }
+	public function getTitle() : string { return $this->gdoVar('pm_title'); }
+	public function displayTitle() : string { return $this->gdoDisplay('pm_title'); }
+	public function displayMessage() : string { return $this->messageColumn()->renderCell(); }
+	public function getMessage() : string { return $this->messageColumn()->getVarInput(); }
+	public function displaySignature() : string { return Module_PM::instance()->userSetting($this->getSender(), 'signature')->renderCell(); }
+	public function getSender() : GDO_User { return $this->gdoValue('pm_from'); }
+	public function getReceiver() : GDO_User { return $this->gdoValue('pm_to'); }
+	public function getOwner() : GDO_User { return $this->gdoValue('pm_owner'); }
+	public function getOwnerID() : string { return $this->gdoVar('pm_owner'); }
+	public function getOtherID() : string { return $this->gdoVar('pm_other'); }
 
 	/**
 	 * Get the other user that differs from param user.
 	 * One of the two users has to match.
-	 * @param GDO_User $user
-	 * @return GDO_User
 	 */
-	public function getOtherUser(GDO_User $user)
+	public function getOtherUser(GDO_User $user) : GDO_User
 	{
 		if ($user->getID() === $this->getFromID())
 		{
@@ -106,35 +92,25 @@ final class GDO_PM extends GDO
 		}
 	}
 	
-	/**
-	 * @return self
-	 */
-	public function getOtherPM() { return $this->gdoValue('pm_other'); }
+	public function getOtherPM() : self { return $this->gdoValue('pm_other'); }
 
-	public function getFromID() { return $this->gdoVar('pm_from'); }
-	public function getToID() { return $this->gdoVar('pm_to'); }
+	public function getFromID() : string { return $this->gdoVar('pm_from'); }
+	public function getToID() : string { return $this->gdoVar('pm_to'); }
 	
-	/**
-	 * @return self
-	 */
-	public function getParent() { return $this->gdoValue('pm_parent'); }
+	public function getParent() : self { return $this->gdoValue('pm_parent'); }
 	
-	/**
-	 * @param GDO_User $owner
-	 * @return self
-	 */
-	public function getPMFor(GDO_User $owner) { return $this->getOwnerID() === $owner->getID() ? $this : $this->getOtherPM(); }
+	public function getPMFor(GDO_User $owner) : self { return $this->getOwnerID() === $owner->getID() ? $this : $this->getOtherPM(); }
 	
-	public function isFrom(GDO_User $user) { return $this->getFromID() === $user->getID(); }
-	public function isTo(GDO_User $user) { return $this->getToID() === $user->getID(); }
+	public function isFrom(GDO_User $user) : bool { return $this->getFromID() === $user->getID(); }
+	public function isTo(GDO_User $user) : bool { return $this->getToID() === $user->getID(); }
 	
 	#############
 	### HREFs ###
 	#############
-	public function href_show() { return href('PM', 'Read', "&id={$this->getID()}"); }
-	public function href_delete() { return href('PM', 'Overview', "&delete=1&rbx[{$this->getID()}]=1"); }
-	public function href_reply() { return href('PM', 'Write', '&reply='.$this->getID()); }
-	public function href_quote() { return href('PM', 'Write', '&quote=yes&reply='.$this->getID()); }
+	public function href_show() : string { return href('PM', 'Read', "&id={$this->getID()}"); }
+	public function href_reply() : string { return href('PM', 'Reply', '&to='.$this->getID()); }
+	public function href_quote() : string { return href('PM', 'Quote', '&to='.$this->getID()); }
+	public function href_delete() : string { return href('PM', 'Overview', "&delete=1&rbx[{$this->getID()}]=1"); }
 	
 	##############
 	### Static ###
@@ -149,7 +125,7 @@ final class GDO_PM extends GDO
 	public static function getByIdAndUser($id, GDO_User $user)
 	{
 		$id = self::quoteS($id);
-		return self::table()->select('*')->where("pm_id={$id} AND pm_owner={$user->getID()}")->exec()->fetchObject();
+		return self::table()->select()->where("pm_id={$id} AND pm_owner={$user->getID()}")->exec()->fetchObject();
 	}
 	
 	##############

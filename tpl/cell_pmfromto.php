@@ -11,22 +11,20 @@ $user = GDO_User::current();
 if ($pm->isFrom($user))
 {
     $other = $pm->getReceiver();
-    $tkey = 'pm_from';
+    $tkey = 'pm_to';
 }
 else
 {
     $other = $pm->getSender();
-    $tkey = 'pm_to';
+    $tkey = 'pm_by';
 }
 
-if (module_enabled('Profile'))
-{
-    $link = GDT_ProfileLink::make()->forUser($other)->
-        withAvatar()->nickname()->render();
-}
-else
-{
-    $link = $other->renderUserName();
-}
+$link = GDT_ProfileLink::make()->user($other)->nickname()->level()->render();
 
-echo t($tkey, [$link]);
+$otherPM = $pm->getPMFor($user)->getOtherPM();
+
+$otherReadState = $otherPM->isRead() ?
+	t('pm_read', [$otherPM->displayReadAgo()]) :
+	t('pm_unread');
+
+echo t($tkey, [$link, $pm->displayAge(), $otherReadState]);

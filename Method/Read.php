@@ -6,7 +6,7 @@ use GDO\Date\Time;
 use GDO\PM\GDO_PM;
 use GDO\PM\PMMethod;
 use GDO\User\GDO_User;
-use GDO\Core\GDT_Object;
+use GDO\PM\GDT_PM;
 
 /**
  * Read a PM.
@@ -24,11 +24,11 @@ final class Read extends Method
 		$pm = $this->getPM();
 		if ($pm->isFrom($user))
 		{
-			return t('pm_to', [$pm->getReceiver()->renderUserName()]);
+			return t('pm_to', [$pm->getReceiver()->renderUserName(), $pm->displayAge(), $pm->displayReadAgo()]);
 		}
 		elseif ($pm->isTo($user))
 		{
-			return t('pm_by', [$pm->getSender()->renderUserName()]);
+			return t('pm_by', [$pm->getSender()->renderUserName(), $pm->displayAge(), $pm->displayReadAgo()]);
 		}
 		else
 		{
@@ -50,7 +50,7 @@ final class Read extends Method
 	public function gdoParameters() : array
 	{
 		return [
-			GDT_Object::make('id')->table(GDO_PM::table())->notNull(),
+			GDT_PM::make('id')->notNull(),
 		];
 	}
 	
@@ -72,7 +72,7 @@ final class Read extends Method
 			$owner->tempUnset('gdo_pm_unread')->recache();
 			$pm->getOtherPM()->saveVar('pm_other_read_at', Time::getDate());
 		}
-		return $this->responsePHP('card_pm.php', ['pm' => $pm]);
+		return $this->templatePHP('card_pm.php', ['pm' => $pm]);
 	}
 	
 }

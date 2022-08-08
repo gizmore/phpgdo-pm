@@ -26,7 +26,7 @@ trait PMMethod
                 GDT_Link::make('link_trashcan')->href(href('PM', 'Trashcan'))->icon('delete'),
                 GDT_Link::make('link_write_pm')->href(href('PM', 'Write'))->icon('create'),
             );
-            GDT_Page::instance()->topBar()->addField($navbar);
+            GDT_Page::instance()->topResponse()->addField($navbar);
         }
     }
     

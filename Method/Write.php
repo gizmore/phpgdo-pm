@@ -15,64 +15,31 @@ use GDO\PM\GDO_PMFolder;
 use GDO\PM\PMMethod;
 use GDO\User\GDT_User;
 use GDO\User\GDO_User;
-use GDO\Util\Common;
-use GDO\Util\Strings;
 use GDO\Form\GDT_Validator;
-use GDO\UI\GDT_Message;
 use GDO\UI\GDT_Page;
+use GDO\Core\GDT;
 
-final class Write extends MethodForm
+/**
+ * Write a PM to a user.
+ * 
+ * @author gizmore
+ * @version 7.0.1
+ * @since 3.3.0
+ */
+class Write extends MethodForm
 {
 	use PMMethod;
-	
-	private $reply;
-	
-	public function execute()
-	{
-		$user = GDO_User::current();
-		$module = Module_PM::instance();
-
-		# Get in reply to
-		if ($this->reply = GDO_PM::table()->find(Common::getRequestString('reply'), false))
-		{
-			if ($this->reply->getOwnerID() !== $user->getID())
-			{
-				$this->reply = null;
-			}
-		}
-		
-		if ($module->cfgIsPMLimited())
-		{
-			$limit = $module->cfgLimitForUser($user);
-			$cutTime = Application::$TIME - $module->cfgLimitTimeout();
-			$cut = Time::getDate($cutTime);
-			$uid = $user->getID();
-			$sent = GDO_PM::table()->countWhere("pm_owner!={$uid} AND pm_from={$uid} and pm_sent_at>'$cut'");
-			if ($sent >= $limit)
-			{
-			    return $this->error('err_pm_limit_reached', [$limit, Time::displayAgeTS($cutTime)]);
-			}
-		}
-		
-		if ($this->reply)
-		{
-			return Read::make()->pmRead($this->reply)->
-			addField(parent::execute());
-		}
-		
-		return parent::execute();
-	}
 	
 	public function createForm(GDT_Form $form) : void
 	{
 		list($username, $title, $message) = $this->initialValues($form);
 		$table = GDO_PM::table();
-		$to = GDT_User::make('pm_write_to')->notNull()->initial($username);
+		$to = GDT_User::make('to')->notNull()->initial($username);
 		$form->addFields(
 			$to,
 			GDT_Validator::make()->validator($form, $to, [$this, 'validateCanSend']),
-			$table->gdoColumn('pm_title')->input($title),
-			$table->gdoColumn('pm_message')->input($message),
+			$table->gdoColumn('pm_title')->initial($title),
+			$table->gdoColumn('pm_message')->initial($message),
 			GDT_AntiCSRF::make(),
 		);
 		$form->actions()->addFields(
@@ -81,65 +48,61 @@ final class Write extends MethodForm
 		);
 	}
 	
-	private function initialValues(GDT_Form $form)
+	protected function initialValues(GDT_Form $form)
 	{
-		$username = null; $title = null; $message = null;
-		if ($this->reply)
-		{
-			# Recipient
-			$username = $this->reply->getOtherUser(GDO_User::current())->getID();
-			# Message
-			$message = '';
-			# Title
-			$title = $this->reply->gdoVar('pm_title');
-			$re = Module_PM::instance()->cfgRE();
-			$title = $re . ' ' . trim(Strings::substrFrom($title, $re, $title));
-		}
-		
-		if (isset($_REQUEST['quote']))
-		{
-			$by = $this->reply->getSender();
-			$at = $this->reply->gdoVar('pm_sent_at');
-			$msg = $this->reply->getMessage();
-			$message = GDT_Message::quoteMessage($by, $at, $msg);
-		}
-		
-		if (isset($_REQUEST['username']))
-		{
-		    if ($user = GDO_User::getByName($_REQUEST['username']))
-		    {
-		        $username = $user->getID();
-		    }
-		}
-		
+		$username = null;
+		$title = null;
+		$message = null;
 		return [$username, $title, $message];
 	}
 	
-	public function validateCanSend(GDT_Form $form, GDT_User $user, GDO_User $value=null)
+	public function validateCanSend(GDT_Form $form, GDT $field, $value=null)
 	{
-	    if ($value)
+		$user = GDO_User::current();
+		
+		# We validate the user field.
+	    if ($value instanceof GDO_User)
 	    {
-    		if ($value->getID() === GDO_User::current()->getID())
+    		if ($value->getID() === $user->getID())
     		{
-    		    return $user->error('err_no_pm_self');
+    			return $field->error('err_no_pm_self');
     		}
     		if (!$value->isUser())
     		{
-    		    return $user->error('err_only_pm_users');
+    			return $field->error('err_only_pm_users');
     		}
 	    }
+	    
+	    # non admins may have a send limit
+	    if (!$user->isAdmin())
+	    {
+	    	$module = Module_PM::instance();
+	    	if ($module->cfgIsPMLimited())
+	    	{
+	    		$limit = $module->cfgLimitForUser($user);
+	    		$cutTime = Application::$TIME - $module->cfgLimitTimeout();
+	    		$cut = Time::getDate($cutTime);
+	    		$uid = $user->getID();
+	    		$sent = GDO_PM::table()->countWhere("pm_owner!={$uid} AND pm_from={$uid} and pm_sent_at>'$cut'");
+	    		if ($sent >= $limit)
+	    		{
+	    			return $field->error('err_pm_limit_reached', [$limit, Time::displayAgeTS($cutTime)]);
+	    		}
+	    	}
+	    }
+	    
 		return true;
 	}
 	
 	public function formValidated(GDT_Form $form)
 	{
-		$this->deliver(GDO_User::current(), $form->getFormValue('pm_write_to'), $form->getFormVar('pm_title'), $form->getFormVar('pm_message'), $this->reply);
+		$this->deliver(GDO_User::current(), $form->getFormValue('to'), $form->getFormVar('pm_title'), $form->getFormVar('pm_message'));
 		return $this->redirectMessage('msg_pm_sent', null, href('PM', 'Overview'));
 	}
 	
-	public function deliver(GDO_User $from, GDO_User $to, $title, $message, GDO_PM $parent=null)
+	public function deliver(GDO_User $from, GDO_User $to, string $title, string $message, GDO_PM $parent=null)
 	{
-		$pmFrom = GDO_PM::blank(array(
+		$pmFrom = GDO_PM::blank([
 				'pm_parent' => $parent ? $parent->getPMFor($from)->getID() : null,
 				'pm_read_at' => Time::getDate(),
 				'pm_owner' => $from->getID(),
@@ -148,8 +111,8 @@ final class Write extends MethodForm
 		   		'pm_folder' => GDO_PMFolder::OUTBOX,
 				'pm_title' => $title,
 				'pm_message' => $message,
-		))->insert();
-		$pmTo = GDO_PM::blank(array(
+		])->insert();
+		$pmTo = GDO_PM::blank([
 				'pm_parent' => $parent ? $parent->getPMFor($to)->getID() : null,
 				'pm_owner' => $to->getID(),
 				'pm_from' => $from->getID(),
@@ -159,7 +122,7 @@ final class Write extends MethodForm
 				'pm_message' => $message,
 				'pm_other' => $pmFrom->getID(),
 				'pm_other_read_at' => Time::getDate(),
-		))->insert();
+		])->insert();
 		$pmFrom->saveVar('pm_other', $pmTo->getID());
 		$to->tempUnset('gdo_pm_unread');
 		$to->recache();
@@ -168,20 +131,21 @@ final class Write extends MethodForm
 		$this->pmTo = $pmTo;
 	}
 	
-	/**
-	 * @var GDO_PM
-	 */
-	private $pmTo;
+	protected GDO_PM $pmTo; # this is the sent pm. we might act with an email.
+
 	public function afterExecute() : void
 	{
 	    if ($this->pressedButton === 'submit')
 	    {
-    		if ($this->pmTo)
+	    	if (isset($this->pmTo))
     		{
     			$pmTo = $this->pmTo;
     			$response = EMailOnPM::deliver($pmTo);
+    			if ($response)
+    			{
+    				GDT_Page::instance()->topResponse()->addField($response);
+    			}
     			GDT_Hook::callWithIPC('PMSent', $pmTo);
-    			GDT_Page::instance()->topResponse()->addField($response);
     		}
 	    }
 	}
@@ -191,12 +155,12 @@ final class Write extends MethodForm
 	###############
 	public function onSubmit_btn_preview(GDT_Form $form)
 	{
-	    $parent = $this->reply;
+		$parent = $this->reply;
 	    $from = GDO_User::current();
 	    $to = $form->getFormValue('pm_write_to');
 	    $title = $form->getFormVar('pm_title');
 	    $message = $form->getFormVar('pm_message');
-	    $pm = GDO_PM::blank(array(
+	    $pm = GDO_PM::blank([
 	        'pm_parent' => $parent ? $parent->getPMFor($to)->getID() : null,
 	        'pm_owner' => $to->getID(),
 	        'pm_from' => $from->getID(),
@@ -204,7 +168,8 @@ final class Write extends MethodForm
 	        'pm_folder' => GDO_PMFolder::INBOX,
 	        'pm_title' => $title,
 	        'pm_message' => $message,
-	    ));
+	    ]);
+	    
 	    $card = $this->templatePHP('card_pm.php', ['pm' => $pm, 'noactions' => true]);
 	    
 	    return parent::renderPage()->addField($card);

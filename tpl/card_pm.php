@@ -4,16 +4,22 @@ use GDO\PM\GDO_PM;
 use GDO\UI\GDT_Button;
 use GDO\UI\GDT_HTML;
 use GDO\UI\GDT_Card;
-use GDO\UI\GDT_Title;
 use GDO\UI\GDT_HR;
+use GDO\User\GDO_User;
+use GDO\PM\GDT_PMFromTo;
 
 /** @var $pm GDO_PM **/
 /** @var $noactions bool **/
 
 $card = GDT_Card::make('pm-'.$pm->getID());
 $card->gdo($pm);
+$user = GDO_User::current();
+$otherUser = $pm->getOtherUser($user);
 
-$card->creatorHeader(GDT_Title::make()->titleEscaped(false)->titleRaw($pm->displayTitle()), 'pm_from');
+// $card->creatorHeader($user ===  $pm->getSender() ? 'pm_to' : 'pm_from', 'pm_sent_at');
+$card->avatarUser($otherUser, 48);
+$card->titleRaw($pm->displayTitle());
+$card->subtitle(GDT_PMFromTo::make()->gdo($pm));
 
 $hr = GDT_HR::make()->renderCell();
 

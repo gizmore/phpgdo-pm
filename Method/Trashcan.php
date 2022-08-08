@@ -27,7 +27,7 @@ final class Trashcan extends MethodQueryTable
 	
 	public function isUserRequired() : bool { return true; }
 	
-	public function getTitle()
+	public function getMethodTitle() : string
 	{
 	    return t('list_pm_trashcan', [$this->table->getResult()->numRows()]);
 	}

@@ -47,14 +47,17 @@ return [
 	'err_no_pm_self' => 'Sie können sich selbst keine PN schreiben.',
 	'err_only_pm_users' => 'Sie können diesem Nutzer keine PN schreiben.',
 	# Settings
-	'pm_email' => 'Email bei Pn?',
+	'pm_email' => 'Email bei neuer PN?',
 	'pm_level' => 'Benötigter Nutzerlevel um Ihnen eine PN zu schreiben',
 	'signature' => 'Ihre Signatur',
 	'pm_guests' => 'Gäste dürfen Ihnen PN schreiben?',
 	# Read
-	'pm_by' => 'Von: %s',
-	'pm_to' => '  An: %s',
-	'pm_sent' => 'gesendet am %s',
+	'pm_by' => 'Von: %s, vor %s; %s.',
+	'pm_to' => '  An: %s, vor %s; %s',
+	'pm_sent' => 'Gesendet am %s',
+	'pm_read' => 'Gelesen vor %s',
+	'pm_unread' => 'Ungelesen',
+	
 	# Overview
 	'btn_move' => 'In Ordner verschieben',
 	'msg_pm_deleted' => 'Es wurden %s PN geöschtet.',
@@ -70,8 +73,8 @@ return [
 	'reply' => 'Antworten',
 	'quote' => 'Zitieren',
 	'show' => 'Anzeigen',
-	'pm_fromto_from' => 'Von: %s',
-	'pm_fromto_to' => 'An: %s',
+// 	'pm_fromto_from' => 'Von: %s',
+// 	'pm_fromto_to' => 'An: %s',
 	# Delete
 	'mt_pm_delete' => 'PN löschen',
 	# Folders
@@ -109,4 +112,10 @@ The %3$s Team',
 	
 	# v6.10.6
 	'list_pm_trashcan' => '0 Nachrichten im Mülleimer',
+
+	# v7.0.1
+	'mt_pm_reply' => 'PN Antworten',
+	'mt_pm_folder' => 'PN Ordner',
+	'mt_pm_folders' => 'PN Ordner',
+	'mt_pm_trashcan' => 'PN Mülleimer',
 ];

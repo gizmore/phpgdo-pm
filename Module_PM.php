@@ -3,7 +3,6 @@ namespace GDO\PM;
 
 use GDO\Core\GDO_Module;
 use GDO\Date\GDT_Duration;
-use GDO\PM\Method\Write;
 use GDO\Register\GDO_UserActivation;
 use GDO\Core\GDT_Checkbox;
 use GDO\Core\GDT_Int;
@@ -65,34 +64,34 @@ final class Module_PM extends GDO_Module
 		    GDT_Checkbox::make('hook_sidebar')->initial('1'),
 		];
 	}
-	public function cfgRE() { return $this->getConfigValue('pm_re'); }
-	public function cfgIsPMLimited() { return $this->cfgLimitTimeout() >= 0; }
-	public function cfgPMLimit() { return $this->getConfigValue('pm_limit'); }
-	public function cfgLimitTimeout() { return $this->getConfigValue('pm_limit_timeout'); }
-	public function cfgMaxFolders() { return $this->getConfigValue('pm_maxfolders'); }
-	public function cfgAllowOwnFolders() { return $this->cfgMaxFolders() > 0; }
-	public function cfgGuestPMs() { return $this->getConfigValue('pm_for_guests'); }
-	public function cfgGuestCaptcha() { return $this->getConfigValue('pm_captcha'); }
-	public function cfgEmailOnPM() { return $this->getConfigValue('pm_causes_mail'); }
-	public function cfgEmailSender() { return $this->getConfigValue('pm_mail_sender'); }
-	public function cfgBotUserID() { return $this->getConfigVar('pm_bot_uid'); }
-	public function cfgBotUser() { return $this->getConfigValue('pm_bot_uid'); }
-	public function cfgOwnBot() { return $this->getConfigValue('pm_own_bot'); }
-	public function cfgPMPerPage() { return $this->getConfigValue('pm_per_page'); }
-	public function cfgWelcomePM() { return $this->getConfigValue('pm_welcome'); }
-	public function cfgMaxSigLen() { return $this->getConfigValue('pm_sig_len'); }
-	public function cfgMaxMsgLen() { return $this->getConfigValue('pm_msg_len'); }
-	public function cfgMaxTitleLen() { return $this->getConfigValue('pm_title_len'); }
-	public function cfgMaxFolderNameLen() { return $this->getConfigValue('pm_fname_len'); }
-	public function cfgAllowDelete() { return $this->getConfigValue('pm_delete'); }
-	public function cfgLimitPerLevel() { return $this->getConfigValue('pm_limit_per_level'); }
-	public function cfgLimitForUser(GDO_User $user)
+	public function cfgRE() : string { return $this->getConfigValue('pm_re'); }
+	public function cfgIsPMLimited() : bool { return $this->cfgLimitTimeout() >= 0; }
+	public function cfgPMLimit() : int { return $this->getConfigValue('pm_limit'); }
+	public function cfgLimitTimeout() : int { return $this->getConfigValue('pm_limit_timeout'); }
+	public function cfgMaxFolders() : bool { return $this->getConfigValue('pm_maxfolders'); }
+	public function cfgAllowOwnFolders() : bool { return $this->cfgMaxFolders() > 0; }
+	public function cfgGuestPMs() : bool { return $this->getConfigValue('pm_for_guests'); }
+	public function cfgGuestCaptcha() : bool { return $this->getConfigValue('pm_captcha'); }
+	public function cfgEmailOnPM() : bool { return $this->getConfigValue('pm_causes_mail'); }
+	public function cfgEmailSender() : string { return $this->getConfigValue('pm_mail_sender'); }
+	public function cfgBotUserID() : string { return $this->getConfigVar('pm_bot_uid'); }
+	public function cfgBotUser() : GDO_User { return $this->getConfigValue('pm_bot_uid'); }
+	public function cfgOwnBot() : bool { return $this->getConfigValue('pm_own_bot'); }
+	public function cfgPMPerPage() : int { return $this->getConfigValue('pm_per_page'); }
+	public function cfgWelcomePM() : bool { return $this->getConfigValue('pm_welcome'); }
+	public function cfgMaxSigLen() : int { return $this->getConfigValue('pm_sig_len'); }
+	public function cfgMaxMsgLen() : int { return $this->getConfigValue('pm_msg_len'); }
+	public function cfgMaxTitleLen() : int { return $this->getConfigValue('pm_title_len'); }
+	public function cfgMaxFolderNameLen() : int { return $this->getConfigValue('pm_fname_len'); }
+	public function cfgAllowDelete() : bool { return $this->getConfigValue('pm_delete'); }
+	public function cfgLimitPerLevel() : int { return $this->getConfigValue('pm_limit_per_level'); }
+	public function cfgLimitForUser(GDO_User $user) : int
 	{
 		$min = $this->cfgPMLimit();
 		$level = $user->getLevel();
 		return $min + floor($level / $this->cfgLimitPerLevel());
 	}
-	public function cfgRightBar() { return $this->getConfigValue('hook_sidebar'); }
+	public function cfgRightBar() : bool { return $this->getConfigValue('hook_sidebar'); }
 	
 	################
 	### Settings ###
@@ -101,9 +100,9 @@ final class Module_PM extends GDO_Module
 	{
 	    return [
 	        GDT_Link::make('link_pm_center')->href(href('PM', 'Overview'))->noacl(),
-	        GDT_Level::make('pm_level')->initial('0')->notNull()->label('pm_level'),
+	        GDT_Level::make('pm_level')->initial('0')->notNull()->label('pm_level')->noacl(),
 	        GDT_Checkbox::make('pm_email')->initial('1'),
-	        GDT_Checkbox::make('pm_guests')->initial('0'),
+	        GDT_Checkbox::make('pm_guests')->initial('0')->noacl(),
 	    ];
 	}
 	
@@ -117,9 +116,10 @@ final class Module_PM extends GDO_Module
 	#############
 	### Hooks ###
 	#############
-	public function hookProfileCard(GDO_User $user, GDT_Card $card)
+	public function hookCreateCardUserProfile(GDT_Card $card)
 	{
-		$linkPM = GDT_Link::make()->href(href('PM', 'Write', '&username='.$user->renderUserName()))->label(t('link_write_pm'));
+		$user = $card->gdo->getUser();
+		$linkPM = GDT_Link::make()->href(href('PM', 'Write', '&to='.$user->renderUserName()))->label(t('link_write_pm'));
 		$card->actions()->addField($linkPM);
 	}
 	
@@ -127,20 +127,10 @@ final class Module_PM extends GDO_Module
 	{
 		if ($this->cfgWelcomePM())
 		{
-			if ($bot = $this->cfgBotUser())
-			{
-				$this->sendWelcomePM(method('PM', 'Write'), $bot, $user);
-			}
+			WelcomePM::deliver($user);
 		}
 	}
 	
-	private function sendWelcomePM(Write $method, GDO_User $from, GDO_User $to)
-	{
-		$title = t('pm_welcome_title', [sitename()]);
-		$message = t('pm_welcome_message', [$to->displayName(), sitename()]);
-		$method->deliver($from, $to, $title, $message);
-	}
-
 	##############
 	### Navbar ###
 	##############

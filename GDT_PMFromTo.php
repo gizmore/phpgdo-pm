@@ -19,6 +19,10 @@ final class GDT_PMFromTo extends GDT
 	
 	public function renderCell() : string
 	{
+		if (!isset($this->gdo))
+		{
+			return '';
+		}
 		return Module_PM::instance()->php('cell_pmfromto.php', [
 		    'field'=>$this, 'pm'=>$this->gdo]);
 	}
