@@ -1,7 +1,6 @@
 <?php
 namespace GDO\PM;
 
-use GDO\Core\GDT;
 use GDO\User\GDO_User;
 use GDO\PM\Method\Write;
 

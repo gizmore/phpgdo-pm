@@ -59,7 +59,7 @@ final class GDO_PM extends GDO
 	##################
 	### Convinient ###
 	##################
-	public function messageColumn() : GDT_Message { return $this->gdoColumn('pm_message'); }
+	public function messageColumn() : GDT_Message { return $this->getColumn('pm_message'); }
 
 	public function isRead() : bool { return $this->gdoVar('pm_read_at') !== null; }
 	public function displayReadAgo() : string { return Time::displayAge($this->gdoVar('pm_read_at')); }

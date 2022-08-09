@@ -18,6 +18,13 @@ final class Read extends Method
 {
 	use PMMethod;
 	
+	public function gdoParameters() : array
+	{
+		return [
+			GDT_PM::make('id')->notNull(),
+		];
+	}
+	
 	public function getMethodTitle() : string
 	{
 		$user = GDO_User::current();
@@ -45,13 +52,6 @@ final class Read extends Method
 			$this->pm = $this->gdoParameterValue('id');
 		}
 		return $this->pm;
-	}
-	
-	public function gdoParameters() : array
-	{
-		return [
-			GDT_PM::make('id')->notNull(),
-		];
 	}
 	
 	public function execute()

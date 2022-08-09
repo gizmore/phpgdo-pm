@@ -54,6 +54,7 @@ return [
 	# Read
 	'pm_by' => 'From: %s, %s; %s',
 	'pm_to' => '  To: %s, %s; %s',
+	'pm_from' => 'From: %s, %s',
 	'pm_sent' => 'Sent on %s',
 	'pm_read' => 'Read %s ago',
 	'pm_unread' => 'Unread',

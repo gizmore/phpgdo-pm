@@ -2,6 +2,7 @@
 namespace GDO\PM\Method;
 
 use GDO\Core\GDO;
+use GDO\DB\Query;
 use GDO\PM\GDO_PM;
 use GDO\PM\GDO_PMFolder;
 use GDO\Table\MethodQueryList;
@@ -27,7 +28,7 @@ final class Folder extends MethodQueryList
 	public function gdoParameters() : array
 	{
 	    return [
-	        GDT_PMFolder::make('folder')->initial('1')->user(GDO_User::current())->notNull(),
+	        GDT_PMFolder::make('folder')->initial('1')->notNull(),
 	    ];
 	}
 	
@@ -35,7 +36,6 @@ final class Folder extends MethodQueryList
 	
 	public function onInit()
 	{
-		parent::onInit();
    		$this->folder = $this->gdoParameterValue('folder');
 	}
 	
@@ -51,7 +51,7 @@ final class Folder extends MethodQueryList
 		];
 	}
 	
-	public function getQuery()
+	public function getQuery() : Query
 	{
 		$user = GDO_User::current();
 		return GDO_PM::table()->select()->

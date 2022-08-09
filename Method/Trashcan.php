@@ -3,6 +3,7 @@ namespace GDO\PM\Method;
 
 use GDO\Core\GDO;
 use GDO\DB\Database;
+use GDO\DB\Query;
 use GDO\Form\GDT_Submit;
 use GDO\PM\GDT_PMFromTo;
 use GDO\PM\GDO_PM;
@@ -64,7 +65,7 @@ final class Trashcan extends MethodQueryTable
 		];
 	}
 	
-	public function getQuery()
+	public function getQuery() : Query
 	{
 		$user = GDO_User::current();
 		return GDO_PM::table()->select()->

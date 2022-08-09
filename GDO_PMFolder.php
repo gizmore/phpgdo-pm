@@ -10,11 +10,14 @@ use GDO\UI\GDT_Title;
 
 /**
  * A PM folder.
- * There are two default folders that are shared in DB. Id 1 and 2 - Inbox and Outbox.
+ * There are two default folders that are shared in DB.
+ * Id 1 and 2 - Inbox and Outbox.
  * 
  * @author gizmore
- * @version 6.10.1
+ * @version 7.0.1
  * @since 3.5.0
+ * @see GDO_PM
+ * @see GDT_PMFolder
  */
 final class GDO_PMFolder extends GDO
 {
@@ -36,33 +39,38 @@ final class GDO_PMFolder extends GDO
 		];
 	}
 	public function getID() : ?string { return $this->gdoVar('pmf_id'); }
-	public function getUserID() { return $this->gdoVar('pmf_user'); }
+	public function getUserID() : string { return $this->gdoVar('pmf_user'); }
 	public function getName() : ?string { return $this->gdoVar('pmf_name'); }
-	public function displayName() { return $this->gdoDisplay('pmf_name'); }
-	
-	/**
-	 * @param string $userid
-	 * @return array
-	 */
-	public static function getFolders($userid)
+	public function displayName() : string { return $this->gdoDisplay('pmf_name'); }
+
+	##############
+	### Events ###
+	##############
+	public static function init() : void
 	{
-		static $folders;
-		if (!isset($folders))
-		{
-			$folders = array_merge(
-				GDO_PMFolder::getDefaultFolders(),
-				self::table()->select()->where('pmf_user='.quote($userid))->exec()->fetchAllObjects()
-			);
-		}
-		return $folders;
+		self::$INBOX = self::getDefaultFolder(self::INBOX, 'inbox_name');
+		self::$OUTBOX = self::getDefaultFolder(self::OUTBOX, 'outbox_name');
 	}
 	
+	##############
+	### Static ###
+	##############
 	/**
-	 * @param int $folderId
-	 * @param GDO_User $user
-	 * @return GDO_PMFolder
+	 * Get all folders for a user.
+	 * @return GDO_PMFolder[]
 	 */
-	public static function getByIdAndUser($folderId, GDO_User $user)
+	public static function getFolders(string $userid) : array
+	{
+		return array_merge(
+			GDO_PMFolder::getDefaultFolders(),
+			self::table()->select()->where('pmf_user='.quote($userid))->exec()->fetchAllObjects(),
+		);
+	}
+
+	/**
+	 * Get a specified folder for a user.
+	 */
+	public static function getByIdAndUser(string $folderId, GDO_User $user) : ?self
 	{
 		$folderId = $folderId;
 		switch ($folderId)
@@ -77,48 +85,39 @@ final class GDO_PMFolder extends GDO
 				return $folder;
 			}
 		}
+		return null;
 	}
 	
 	#######################
 	### Default Folders ###
 	#######################
-	public static function getDefaultFolders()
+	public static function getDefaultFolders() : array
 	{
-		return [self::getInBox(), self::getOutBox()];
+		return [
+			self::getInBox(),
+			self::getOutBox(),
+		];
 	}
 	
-	public static function getInBox()
+	public static function getInBox() : self
 	{
-		static $inbox;
-		if (!isset($inbox))
-		{
-			$uid = GDO_User::current()->getID();
-			$fid = self::INBOX;
-			$inbox = self::blank([
-				'pmf_id' => $fid,
-				'pmf_user' => $uid,
-				'pmf_name' => t('inbox_name'),
-				'pmf_count' => GDO_PM::table()->countWhere("pm_folder=$fid AND pm_owner=$uid AND pm_deleted_at IS NULL"),
-			]);
-		}
-		return $inbox;
+		return self::getDefaultFolder('1', 'inbox_name');
 	}
 	
-	public static function getOutBox()
+	public static function getOutBox() : self
 	{
-		static $outbox;
-		if (!isset($outbox))
-		{
-			$uid = GDO_User::current()->getID();
-			$fid = self::OUTBOX;
-			$outbox = self::blank([
-				'pmf_id' => $fid,
-				'pmf_user' => $uid,
-				'pmf_name' => t('outbox_name'),
-				'pmf_count' => GDO_PM::table()->countWhere("pm_folder=$fid AND pm_owner=$uid AND pm_deleted_at IS NULL"),
-			]);
-		}
-		return $outbox;
+		return self::getDefaultFolder('2', 'outbox_name');
 	}
 
+	private static function getDefaultFolder(string $fid, string $textKey) : self
+	{
+		$uid = GDO_User::current()->getID();
+		return self::blank([
+			'pmf_id' => $fid,
+			'pmf_user' => $uid,
+			'pmf_name' => $textKey,
+			'pmf_count' => GDO_PM::table()->countWhere("pm_folder=$fid AND pm_owner=$uid AND pm_deleted_at IS NULL"),
+		]);
+	}
+	
 }

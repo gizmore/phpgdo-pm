@@ -106,7 +106,6 @@ class Write extends MethodForm
 	{
 		$from->persistent();
 		$to->persistent();
-		
 		$pmFrom = GDO_PM::blank([
 				'pm_parent' => $parent ? $parent->getPMFor($from)->getID() : null,
 				'pm_read_at' => Time::getDate(),
@@ -189,7 +188,7 @@ class Write extends MethodForm
 	    $result = GDT_Tuple::make();
 	    $result->addField(GDT_Headline::make()->level(2)->text('btn_preview'));
 	    $result->addField($card);
-	    $result->addField(parent::renderPage());
+	    $result->addField($this->renderPage());
 	    return $result;
 	}
 

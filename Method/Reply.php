@@ -50,16 +50,16 @@ class Reply extends Write
 	{
 		$this->pm = $this->gdoParameterValue('to');
 		list($title, $message) = $this->initialValues($form);
-		$table = GDO_PM::table();
+// 		$form->gdo($this->pm);
 		$form->addFields(
 			GDT_Validator::make()->validator($form, null, [$this, 'validateCanSend']),
-			$table->gdoColumn('pm_title')->initial($title),
-			$table->gdoColumn('pm_message')->initial($message),
+			$this->pm->gdoColumnCopy('pm_title')->initial($title),
+			$this->pm->gdoColumnCopy('pm_message')->initial($message),
 			GDT_AntiCSRF::make(),
 		);
 		$form->actions()->addFields(
 			GDT_Submit::make(),
-			GDT_Submit::make('btn_preview'),
+			GDT_Submit::make('btn_preview')->onclick([$this, 'preview']),
 		);
 	}
 
@@ -76,7 +76,7 @@ class Reply extends Write
 		{
 			$by = $this->pm->getSender();
 			$at = $this->pm->gdoVar('pm_sent_at');
-			$msg = $this->pm->getMessage();
+			$msg = $this->pm->gdoColumn('pm_message')->getVarInput();
 			$message = GDT_Message::quoteMessage($by, $at, $msg);
 		}
 		

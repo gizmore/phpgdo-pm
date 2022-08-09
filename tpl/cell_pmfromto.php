@@ -36,4 +36,12 @@ else
 	$otherReadState = t('pm_unread');
 }
 
-echo t($tkey, [$link, $pm->displayAge(), $otherReadState]);
+if ($pm->isFrom($user))
+{
+	echo t($tkey, [$link, $pm->displayAge(), $otherReadState]);
+}
+else
+{
+	echo t('pm_from', [$link, $pm->displayAge()]);
+}
+
