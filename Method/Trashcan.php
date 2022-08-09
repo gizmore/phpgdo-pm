@@ -29,7 +29,7 @@ final class Trashcan extends MethodQueryTable
 	
 	public function getMethodTitle() : string
 	{
-	    return t('list_pm_trashcan', [$this->table->getResult()->numRows()]);
+	    return t('list_pm_trashcan', [$this->getTable()->getResult()->numRows()]);
 	}
 	
 	public function gdoTable() : GDO
@@ -74,7 +74,7 @@ final class Trashcan extends MethodQueryTable
 	
 	public function createTable(GDT_Table $table)
 	{
-		$table->title(t('name_trashcan'));
+		$table->title('name_trashcan');
 		$table->actions()->addFields(
 			GDT_Submit::make('restore')->primary()->label('btn_restore'),
 			GDT_Submit::make('delete')->secondary()->label('btn_delete'),

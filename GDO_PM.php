@@ -92,14 +92,14 @@ final class GDO_PM extends GDO
 		}
 	}
 	
-	public function getOtherPM() : self { return $this->gdoValue('pm_other'); }
+	public function getOtherPM() : ?self { return $this->gdoValue('pm_other'); }
 
 	public function getFromID() : string { return $this->gdoVar('pm_from'); }
 	public function getToID() : string { return $this->gdoVar('pm_to'); }
 	
 	public function getParent() : self { return $this->gdoValue('pm_parent'); }
 	
-	public function getPMFor(GDO_User $owner) : self { return $this->getOwnerID() === $owner->getID() ? $this : $this->getOtherPM(); }
+	public function getPMFor(GDO_User $owner) : ?self { return $this->getOwnerID() === $owner->getID() ? $this : $this->getOtherPM(); }
 	
 	public function isFrom(GDO_User $user) : bool { return $this->getFromID() === $user->getID(); }
 	public function isTo(GDO_User $user) : bool { return $this->getToID() === $user->getID(); }

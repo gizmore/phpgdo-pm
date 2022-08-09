@@ -15,7 +15,7 @@ use GDO\PM\Method\Write;
  */
 final class WelcomePM
 {
-	public static function deliver(GDO_User $user) : ?GDT
+	public static function deliver(GDO_User $user)
 	{
 		$module = Module_PM::instance();
 		if ($bot = $module->cfgBotUser())
@@ -27,7 +27,7 @@ final class WelcomePM
 	private static function sendWelcomePM(Write $method, GDO_User $from, GDO_User $to)
 	{
 		$title = tusr($to, 'pm_welcome_title', [sitename()]);
-		$message = tusr($to, 'pm_welcome_message', [$to->displayName(), sitename()]);
+		$message = tusr($to, 'pm_welcome_message', [$to->renderName(), sitename()]);
 		$method->deliver($from, $to, $title, $message);
 	}
 	

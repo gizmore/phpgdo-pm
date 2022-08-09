@@ -35,7 +35,17 @@ class Reply extends Write
 			GDT_PM::make('to')->notNull(),
 		];
 	}
-
+	
+	protected function getParent() : ?GDO_PM
+	{
+		return $this->pm;
+	}
+	
+	protected function getRecipient() : GDO_User
+	{
+		return $this->pm->getOtherUser(GDO_User::current());
+	}
+	
 	public function createForm(GDT_Form $form): void
 	{
 		$this->pm = $this->gdoParameterValue('to');

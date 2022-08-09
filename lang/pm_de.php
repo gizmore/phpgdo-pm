@@ -118,4 +118,8 @@ The %3$s Team',
 	'mt_pm_folder' => 'PN Ordner',
 	'mt_pm_folders' => 'PN Ordner',
 	'mt_pm_trashcan' => 'PN Mülleimer',
+	'list_pm_folder' => '%s PM in %s',
+	'mt_pm_resendwelcome' => 'Resend Welcome PM',
+	'msg_welcome_pm_resent' => 'Your Welcome PM has been resent.',
+
 ];

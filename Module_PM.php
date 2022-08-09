@@ -37,6 +37,7 @@ final class Module_PM extends GDO_Module
 	public function onLoadLanguage() : void { $this->loadLanguage('lang/pm'); }
 	public function onInstall() : void { PMInstall::install($this); }
 	public function getDependencies() : array { return ['Account']; }
+	public function getFriendencies() : array { return ['Avatar']; }
 	
 	##############
 	### Config ###
@@ -52,9 +53,9 @@ final class Module_PM extends GDO_Module
 			GDT_Checkbox::make('pm_captcha')->initial('0'),
 			GDT_Checkbox::make('pm_causes_mail')->initial(module_enabled('Mail')?'1':'0'),
 			GDT_User::make('pm_bot_uid')->label('pm_bot_uid')->writeable(false),
-			GDT_Checkbox::make('pm_own_bot'),
+			GDT_Checkbox::make('pm_own_bot')->initial('0'),
 			GDT_Int::make('pm_per_page')->initial('20')->unsigned(),
-			GDT_Checkbox::make('pm_welcome')->initial('0'),
+			GDT_Checkbox::make('pm_welcome')->initial('1'),
 			GDT_Int::make('pm_sig_len')->initial('255')->max(1024)->unsigned(),
 			GDT_Int::make('pm_msg_len')->initial('2048')->max(65535)->unsigned(),
 			GDT_Int::make('pm_title_len')->initial('64')->max(255)->unsigned(),
@@ -75,7 +76,7 @@ final class Module_PM extends GDO_Module
 	public function cfgEmailOnPM() : bool { return $this->getConfigValue('pm_causes_mail'); }
 	public function cfgEmailSender() : string { return $this->getConfigValue('pm_mail_sender'); }
 	public function cfgBotUserID() : string { return $this->getConfigVar('pm_bot_uid'); }
-	public function cfgBotUser() : GDO_User { return $this->getConfigValue('pm_bot_uid'); }
+	public function cfgBotUser() : ?GDO_User { return $this->getConfigValue('pm_bot_uid'); }
 	public function cfgOwnBot() : bool { return $this->getConfigValue('pm_own_bot'); }
 	public function cfgPMPerPage() : int { return $this->getConfigValue('pm_per_page'); }
 	public function cfgWelcomePM() : bool { return $this->getConfigValue('pm_welcome'); }

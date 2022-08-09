@@ -40,7 +40,8 @@ final class PNTest extends TestCase
     public function testSend()
     {
     	$p = ['pm_title' => 'TITLE', 'pm_message' => 'MESSAGE', 'to' => '3'];
-    	GDT_MethodTest::make()->method(Write::make())->inputs($p)->execute();
+    	$m = GDT_MethodTest::make()->method(Write::make())->inputs($p);
+    	$m->execute();
     	$n = GDO_PM::table()->countWhere();
     	assertEquals(2, $n, 'Test if PM can be sent from giz to 3.');
     }

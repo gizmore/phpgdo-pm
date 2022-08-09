@@ -21,10 +21,19 @@ else
 
 $link = GDT_ProfileLink::make()->user($other)->nickname()->level()->render();
 
-$otherPM = $pm->getPMFor($user)->getOtherPM();
+$p = $pm->getPMFor($user);
 
-$otherReadState = $otherPM->isRead() ?
-	t('pm_read', [$otherPM->displayReadAgo()]) :
-	t('pm_unread');
+$otherPM = $p ? $p->getOtherPM() : $pm->getOtherPM();
+
+if ($otherPM)
+{
+	$otherReadState = $otherPM->isRead() ?
+		t('pm_read', [$otherPM->displayReadAgo()]) :
+		t('pm_unread');
+}
+else
+{
+	$otherReadState = t('pm_unread');
+}
 
 echo t($tkey, [$link, $pm->displayAge(), $otherReadState]);

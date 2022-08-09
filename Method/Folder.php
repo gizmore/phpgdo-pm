@@ -6,16 +6,14 @@ use GDO\PM\GDO_PM;
 use GDO\PM\GDO_PMFolder;
 use GDO\Table\MethodQueryList;
 use GDO\User\GDO_User;
-use GDO\Table\GDT_Table;
 use GDO\PM\GDT_PMFolder;
 
 /**
  * Display a PM folder.
  * 
  * @author gizmore
- * @version 6.10.3
+ * @version 7.0.1
  * @since 5.3.0
- *
  * @see GDO_PMFolder
  */
 final class Folder extends MethodQueryList
@@ -33,10 +31,7 @@ final class Folder extends MethodQueryList
 	    ];
 	}
 	
-	/**
-	 * @var GDO_PMFolder
-	 */
-	private $folder;
+	private GDO_PMFolder $folder;
 	
 	public function onInit()
 	{
@@ -65,11 +60,15 @@ final class Folder extends MethodQueryList
     		where("gdo_pm.pm_deleted_at IS NULL");
 	}
 	
-    protected function setupTitle(GDT_Table $table)
-    {
-        $list = $table;
-	    $list->title('pm_folder', [$this->folder->gdoDisplay('pmf_name'), $table->pagemenu->numItems]);
-		$list->href(href('PM', 'Overview', '&folder=' . $this->folder->getID()));
-    }
+	public function getMethodTitle() : string
+	{
+		$table = $this->getTable();
+		return t('pm_folder', [$this->folder->gdoDisplay('pmf_name'), $table->getResult()->numRows()]);
+	}
+	
+	public function getTableTitle()
+	{
+		return $this->getMethodTitle();
+	}
 	
 }

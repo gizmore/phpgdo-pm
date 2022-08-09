@@ -113,9 +113,12 @@ The %3$s Team',
 	'list_pm_trashcan' => '0 messages in the trashcan',
 	
 	# v7.0.1
+	'mt_pm_reply' => 'Reply to PM',
 	'mt_pm_folder' => 'PM Folder',
 	'mt_pm_folders' => 'PM Folders',
 	'mt_pm_trashcan' => 'PM Trashcan',
-	'mt_pm_reply' => 'Reply to PM',
 	'list_pm_folder' => '%s PM in %s',
+	'mt_pm_resendwelcome' => 'Resend Welcome PM',
+	'msg_welcome_pm_resent' => 'Your Welcome PM has been resent.',
+
 ];

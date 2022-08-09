@@ -30,7 +30,7 @@ final class GDT_PMFromTo extends GDT
 	public function renderFilter($f) : string
 	{
 		return Module_PM::instance()->php('filter_pmfromto.php', [
-		    'field' => $this, 'pm' => $this->gdo, 'f' => $f]);
+		    'field' => $this, 'f' => $f]);
 	}
 	
 }

@@ -18,6 +18,8 @@ use GDO\User\GDO_User;
 use GDO\Form\GDT_Validator;
 use GDO\UI\GDT_Page;
 use GDO\Core\GDT;
+use GDO\Core\GDT_Tuple;
+use GDO\UI\GDT_Headline;
 
 /**
  * Write a PM to a user.
@@ -44,7 +46,7 @@ class Write extends MethodForm
 		);
 		$form->actions()->addFields(
 			GDT_Submit::make(),
-		    GDT_Submit::make('btn_preview')
+		    GDT_Submit::make('btn_preview')->onclick([$this, 'preview']),
 		);
 	}
 	
@@ -102,6 +104,9 @@ class Write extends MethodForm
 	
 	public function deliver(GDO_User $from, GDO_User $to, string $title, string $message, GDO_PM $parent=null)
 	{
+		$from->persistent();
+		$to->persistent();
+		
 		$pmFrom = GDO_PM::blank([
 				'pm_parent' => $parent ? $parent->getPMFor($from)->getID() : null,
 				'pm_read_at' => Time::getDate(),
@@ -153,11 +158,22 @@ class Write extends MethodForm
 	###############
 	### Preview ###
 	###############
-	public function onSubmit_btn_preview(GDT_Form $form)
+	protected function getParent() : ?GDO_PM
 	{
-		$parent = $this->reply;
+		return null;
+	}
+	
+	protected function getRecipient() : GDO_User
+	{
+		return $this->getForm()->getFormValue('to');
+	}
+	
+	public function preview()
+	{
+		$form = $this->getForm();
+		$parent = $this->getParent();
 	    $from = GDO_User::current();
-	    $to = $form->getFormValue('pm_write_to');
+	    $to = $this->getRecipient();
 	    $title = $form->getFormVar('pm_title');
 	    $message = $form->getFormVar('pm_message');
 	    $pm = GDO_PM::blank([
@@ -169,10 +185,12 @@ class Write extends MethodForm
 	        'pm_title' => $title,
 	        'pm_message' => $message,
 	    ]);
-	    
 	    $card = $this->templatePHP('card_pm.php', ['pm' => $pm, 'noactions' => true]);
-	    
-	    return parent::renderPage()->addField($card);
+	    $result = GDT_Tuple::make();
+	    $result->addField(GDT_Headline::make()->level(2)->text('btn_preview'));
+	    $result->addField($card);
+	    $result->addField(parent::renderPage());
+	    return $result;
 	}
 
 }
