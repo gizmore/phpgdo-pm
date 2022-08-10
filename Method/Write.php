@@ -40,8 +40,8 @@ class Write extends MethodForm
 		$form->addFields(
 			$to,
 			GDT_Validator::make()->validator($form, $to, [$this, 'validateCanSend']),
-			$table->gdoColumn('pm_title')->initial($title),
-			$table->gdoColumn('pm_message')->initial($message),
+			$table->gdoColumnCopy('pm_title')->initial($title),
+			$table->gdoColumnCopy('pm_message')->initial($message),
 			GDT_AntiCSRF::make(),
 		);
 		$form->actions()->addFields(
