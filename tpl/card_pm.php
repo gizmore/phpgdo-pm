@@ -21,7 +21,7 @@ $card->avatarUser($otherUser, 48);
 $card->titleRaw($pm->displayTitle());
 $card->subtitle(GDT_PMFromTo::make()->gdo($pm));
 
-$hr = GDT_HR::make()->renderCell();
+$hr = GDT_HR::make()->renderHTML();
 
 $html = <<<EOT
 <div>
@@ -41,4 +41,4 @@ if (!isset($noactions))
     );
 }
 
-echo $card->renderCell();
+echo $card->renderHTML();

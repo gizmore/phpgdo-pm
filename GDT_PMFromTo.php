@@ -17,7 +17,7 @@ final class GDT_PMFromTo extends GDT
 	
 	public function displayHeaderLabel() { return ''; }
 	
-	public function renderCell() : string
+	public function renderHTML() : string
 	{
 		if (!isset($this->gdo))
 		{

@@ -67,9 +67,9 @@ final class GDO_PM extends GDO
 	public function displayDate() : string { return Time::displayDate($this->gdoVar('pm_sent_at')); }
 	public function getTitle() : string { return $this->gdoVar('pm_title'); }
 	public function displayTitle() : string { return $this->gdoDisplay('pm_title'); }
-	public function displayMessage() : string { return $this->messageColumn()->renderCell(); }
+	public function displayMessage() : string { return $this->messageColumn()->renderHTML(); }
 	public function getMessage() : string { return $this->messageColumn()->getVarInput(); }
-	public function displaySignature() : string { return Module_PM::instance()->userSetting($this->getSender(), 'signature')->renderCell(); }
+	public function displaySignature() : string { return Module_PM::instance()->userSetting($this->getSender(), 'signature')->renderHTML(); }
 	public function getSender() : GDO_User { return $this->gdoValue('pm_from'); }
 	public function getReceiver() : GDO_User { return $this->gdoValue('pm_to'); }
 	public function getOwner() : GDO_User { return $this->gdoValue('pm_owner'); }
