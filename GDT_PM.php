@@ -28,10 +28,13 @@ final class GDT_PM extends GDT_Object
 		echo $query->where("pm_owner={$uid}");
 	}
 	
-	public function plugVar() : string
+	public function plugVars() : array
 	{
 		$uid = GDO_User::current()->getID();
-		$this->table->select('pm_id')->where("pm_owner=$uid")->exec()->fetchValue();
+		$pmid = $this->table->select('pm_id')->where("pm_owner=$uid")->exec()->fetchValue();
+		return [
+			[$this->getName() => $pmid],
+		];
 	}
 	
 }
