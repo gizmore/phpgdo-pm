@@ -32,7 +32,7 @@ final class PNTest extends TestCase
     {
         $p = ['pm_title' => 'TITLE', 'pm_message' => 'MESSAGE', 'to' => '3'];
         $r = GDT_MethodTest::make()->method(Write::make())->inputs($p)->execute('btn_preview');
-        $html = $r->render();
+        $html = $r->renderHTML();
         $n = substr_count($html, 'MESSAGE');
         assertEquals(2, $n, 'Test if message is shown and kept in editor.');
     }
@@ -43,7 +43,7 @@ final class PNTest extends TestCase
     	$m = GDT_MethodTest::make()->method(Write::make())->inputs($p);
     	$m->execute();
     	$n = GDO_PM::table()->countWhere();
-    	assertEquals(2, $n, 'Test if PM can be sent from giz to 3.');
+    	assertGreaterThanOrEqual(2, $n, 'Test if PM can be sent from giz to 3.');
     }
     
 }

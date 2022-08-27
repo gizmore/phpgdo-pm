@@ -4,6 +4,7 @@ namespace GDO\PM;
 use GDO\Core\GDT;
 use GDO\UI\WithLabel;
 use GDO\Core\WithGDO;
+use GDO\Table\GDT_Filter;
 
 /**
  * The From/To field in PM display.
@@ -27,7 +28,7 @@ final class GDT_PMFromTo extends GDT
 		    'field'=>$this, 'pm'=>$this->gdo]);
 	}
 	
-	public function renderFilter($f) : string
+	public function renderFilter(GDT_Filter $f) : string
 	{
 		return Module_PM::instance()->php('filter_pmfromto.php', [
 		    'field' => $this, 'f' => $f]);
