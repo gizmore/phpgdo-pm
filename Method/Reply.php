@@ -71,7 +71,7 @@ class Reply extends Write
 		$title = trim($re) . ' ' . trim(Strings::substrFrom($title, $re, $title));
 
 		# Message
-		$message = '';
+		$message = null;
 		if ($this->quote)
 		{
 			$by = $this->pm->getSender();

@@ -30,7 +30,7 @@ $html = <<<EOT
   <div>{$pm->displaySignature()}</div>
 </div>
 EOT;
-$card->content(GDT_HTML::withHTML($html));
+$card->content(GDT_HTML::make()->var($html));
 
 if (!isset($noactions))
 {
