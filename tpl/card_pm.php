@@ -19,7 +19,7 @@ $otherUser = $pm->getOtherUser($user);
 // $card->creatorHeader($user ===  $pm->getSender() ? 'pm_to' : 'pm_from', 'pm_sent_at');
 $card->avatarUser($otherUser, 48);
 $card->titleRaw($pm->displayTitle());
-$card->subtitle(GDT_PMFromTo::make()->gdo($pm));
+$card->subtitleRaw(GDT_PMFromTo::make()->gdo($pm)->render());
 
 $hr = GDT_HR::make()->renderHTML();
 
