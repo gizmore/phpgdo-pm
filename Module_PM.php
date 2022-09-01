@@ -62,7 +62,8 @@ final class Module_PM extends GDO_Module
 			GDT_Int::make('pm_fname_len')->initial(GDT_Username::LENGTH)->max(GDT_Name::LENGTH),
 			GDT_Checkbox::make('pm_delete')->initial('1'),
 			GDT_Int::make('pm_limit_per_level')->initial('1000000')->unsigned(),
-		    GDT_Checkbox::make('hook_sidebar')->initial('1'),
+			GDT_Checkbox::make('hook_sidebar')->initial('1'),
+			GDT_Checkbox::make('pm_self')->initial('0'),
 		];
 	}
 	public function cfgRE() : string { return $this->getConfigValue('pm_re'); }
@@ -93,6 +94,7 @@ final class Module_PM extends GDO_Module
 		return $min + floor($level / $this->cfgLimitPerLevel());
 	}
 	public function cfgRightBar() : bool { return $this->getConfigValue('hook_sidebar'); }
+	public function cfgPMSelf() : bool { return $this->getConfigValue('pm_self'); }
 	
 	################
 	### Settings ###

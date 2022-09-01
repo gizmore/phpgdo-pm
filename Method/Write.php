@@ -67,7 +67,10 @@ class Write extends MethodForm
 	    {
     		if ($value->getID() === $user->getID())
     		{
-    			return $field->error('err_no_pm_self');
+    			if (!Module_PM::instance()->cfgPMSelf())
+    			{
+    				return $field->error('err_no_pm_self');
+    			}
     		}
     		if (!$value->isUser())
     		{
