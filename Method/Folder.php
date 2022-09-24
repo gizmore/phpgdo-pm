@@ -34,7 +34,7 @@ final class Folder extends MethodQueryList
 	
 	private GDO_PMFolder $folder;
 	
-	public function onInit()
+	public function onMethodInit()
 	{
    		$this->folder = $this->gdoParameterValue('folder');
 	}
