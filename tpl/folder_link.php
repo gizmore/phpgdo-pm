@@ -2,6 +2,6 @@
 namespace GDO\PM\tpl;
 /** @var $field \GDO\Core\GDT_Template **/
 use GDO\UI\GDT_Link;
-$gdo = $field->gdo;
+$id = $field->getVar();
 
-echo GDT_Link::make()->label($gdo->renderName())->href(href('PM', 'Overview', '&folder='.$gdo->getID()))->render();
+echo GDT_Link::make()->label($field->labelKey)->href(href('PM', 'Overview', '&folder='.$id))->render();

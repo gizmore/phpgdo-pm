@@ -20,7 +20,7 @@ $li = GDT_ListItem::make('pm-'.$id)->gdo($pm);
 $li->avatarUser($otherUser, 48);
 // $fromto = $pm->getSender() === $user ? 'pm_fromto_to' : 'pm_fromto_from';
 // $li->subtitle(GDT_Headline::make()->level(5)->text($fromto, [$otherUser->renderUserName()]));
-$li->subtitle(GDT_PMFromTo::make()->gdo($pm));
+$li->subtitleRaw(GDT_PMFromTo::make()->gdo($pm)->render());
 $li->actions()->addFields(
 	GDT_Button::make()->href($href)->icon('view')->label('btn_view'),
 	GDT_Action::make()->href($hrefDelete)->icon('delete')->label('btn_delete'),
