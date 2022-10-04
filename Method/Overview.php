@@ -72,7 +72,7 @@ final class Overview extends Method
 // 		{
 // 			GDO_PM::table()->update()->set("pm_folder={$folder->getID()}")->where("pm_owner={$user->getID()} AND pm_id IN($ids)")->exec();
 // 			$affected = Database::instance()->affectedRows();
-// 			return $this->message('msg_pm_moved', [$affected, $folder->displayName()]);
+// 			return $this->message('msg_pm_moved', [$affected, $folder->renderName()]);
 // 		}
 // 	}
 	

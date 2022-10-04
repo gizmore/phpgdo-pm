@@ -41,7 +41,7 @@ final class GDO_PMFolder extends GDO
 	public function getID() : ?string { return $this->gdoVar('pmf_id'); }
 	public function getUserID() : string { return $this->gdoVar('pmf_user'); }
 	public function getName() : ?string { return $this->gdoVar('pmf_name'); }
-	public function displayName() : string { return $this->gdoDisplay('pmf_name'); }
+	public function renderName() : string { return $this->gdoDisplay('pmf_name'); }
 
 	##############
 	### Events ###
