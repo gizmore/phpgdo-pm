@@ -3,6 +3,7 @@ namespace GDO\PM;
 
 use GDO\Core\GDT_ObjectSelect;
 use GDO\User\WithUser;
+use GDO\Core\WithGDO;
 
 /**
  * A PM folder.
@@ -13,7 +14,7 @@ use GDO\User\WithUser;
  */
 final class GDT_PMFolder extends GDT_ObjectSelect
 {
-	use WithUser;
+	use WithGDO;
 	
 	const INBOX = '1';
 	const OUTBOX = '2';
@@ -30,7 +31,7 @@ final class GDT_PMFolder extends GDT_ObjectSelect
 	
 	public function getChoices() : array
 	{
-		$user = $this->user;
+		$user = $this->gdo;
 		$choices = [];
 		foreach (GDO_PMFolder::getFolders($user->getID()) as $folder)
 		{
