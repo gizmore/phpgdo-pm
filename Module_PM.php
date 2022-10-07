@@ -16,6 +16,7 @@ use GDO\User\GDO_User;
 use GDO\UI\GDT_Card;
 use GDO\UI\GDT_Link;
 use GDO\UI\GDT_Page;
+use GDO\UI\GDT_Divider;
 
 /**
  * Private messaging module.
@@ -114,6 +115,13 @@ final class Module_PM extends GDO_Module
 	    return [
 	        GDT_Message::make('signature')->max(4096)->label('signature')->noacl(),
 	    ];
+	}
+	
+	public function getPrivacyRelatedFields(): array
+	{
+		return [
+			GDT_Divider::make('div_info_privacy_pm'),
+		];
 	}
 	
 	#############

@@ -121,5 +121,6 @@ The %3$s Team',
 	'list_pm_folder' => '%s PM in %s',
 	'mt_pm_resendwelcome' => 'Resend Welcome PM',
 	'msg_welcome_pm_resent' => 'Your Welcome PM has been resent.',
-
+	'div_info_privacy_pm' => 'Private Nachrichten sind nicht verschlüsselt. Dies lässt sich z.Zt. auch nicht einstellen.',
+	
 ];
