@@ -26,6 +26,11 @@ final class GDO_PM extends GDO
 {
 	public function gdoCached() : bool { return false; }
 	
+	public function isTestable(): bool
+	{
+		return false;
+	}
+	
 	###########
 	### GDO ###
 	###########
