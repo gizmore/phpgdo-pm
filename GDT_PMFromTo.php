@@ -22,10 +22,10 @@ final class GDT_PMFromTo extends GDT
 	{
 		if (!isset($this->gdo))
 		{
-			return '';
+			return GDT::EMPTY_STRING;
 		}
 		return Module_PM::instance()->php('cell_pmfromto.php', [
-		    'field'=>$this, 'pm'=>$this->gdo]);
+		    'field' => $this, 'pm' => $this->gdo]);
 	}
 	
 	public function renderFilter(GDT_Filter $f) : string

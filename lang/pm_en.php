@@ -122,4 +122,5 @@ The %3$s Team',
 	'mt_pm_resendwelcome' => 'Resend Welcome PM',
 	'msg_welcome_pm_resent' => 'Your Welcome PM has been resent.',
 	'div_info_privacy_pm' => 'Private messages are not encrypted and could be read by an administrator. There is currently no other option.',
+	'pm_from' => 'From %s, %s ago',
 ];

@@ -79,7 +79,7 @@ final class GDO_PM extends GDO
 	{
 		if ($user = $this->gdoValue('pm_from'))
 		{
-			$user;
+			return $user;
 		}
 		return GDO_User::current();
 	}

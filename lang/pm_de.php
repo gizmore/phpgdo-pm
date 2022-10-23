@@ -122,5 +122,5 @@ The %3$s Team',
 	'mt_pm_resendwelcome' => 'Resend Welcome PM',
 	'msg_welcome_pm_resent' => 'Your Welcome PM has been resent.',
 	'div_info_privacy_pm' => 'Private Nachrichten sind nicht verschlüsselt. Dies lässt sich z.Zt. auch nicht einstellen.',
-	
+	'pm_from' => 'Von %s, vor/am %s',
 ];
