@@ -1,6 +1,7 @@
 <?php
 namespace GDO\PM\lang;
 return [
+	'module_pm' => 'PM',
 	# Config Admin
 	'cfg_pm_re' => 'Response title prefix',
 	'cfg_pm_limit' => 'Max PMs within PM limit timeout',

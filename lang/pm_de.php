@@ -1,6 +1,7 @@
 <?php
 namespace GDO\PM\lang;
 return [
+	'module_pm' => 'Privatnachrichten',
 	# Config Admin
 	'cfg_pm_re' => 'Titelvoranstellung für Antworten',
 	'cfg_pm_limit' => 'Maximal PN innerhalb des Timeouts',
