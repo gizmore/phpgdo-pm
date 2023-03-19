@@ -109,7 +109,7 @@ final class GDO_PM extends GDO
 	public function getFromID() : string { return $this->gdoVar('pm_from'); }
 	public function getToID() : string { return $this->gdoVar('pm_to'); }
 	
-	public function getParent() : self { return $this->gdoValue('pm_parent'); }
+	public function getParent(): static { return $this->gdoValue('pm_parent'); }
 	
 	public function getPMFor(GDO_User $owner) : ?self { return $this->getOwnerID() === $owner->getID() ? $this : $this->getOtherPM(); }
 	

@@ -99,17 +99,17 @@ final class GDO_PMFolder extends GDO
 		];
 	}
 	
-	public static function getInBox() : self
+	public static function getInBox(): static
 	{
 		return self::getDefaultFolder('1', 'inbox_name');
 	}
 	
-	public static function getOutBox() : self
+	public static function getOutBox(): static
 	{
 		return self::getDefaultFolder('2', 'outbox_name');
 	}
 
-	private static function getDefaultFolder(string $fid, string $textKey) : self
+	private static function getDefaultFolder(string $fid, string $textKey): static
 	{
 		$uid = GDO_User::current()->getID();
 		return self::blank([
