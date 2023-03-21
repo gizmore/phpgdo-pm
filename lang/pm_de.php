@@ -1,5 +1,6 @@
 <?php
 namespace GDO\PM\lang;
+
 return [
 	'module_pm' => 'Privatnachrichten',
 	# Config Admin
@@ -58,7 +59,7 @@ return [
 	'pm_sent' => 'Gesendet am %s',
 	'pm_read' => 'Gelesen vor %s',
 	'pm_unread' => 'Ungelesen',
-	
+
 	# Overview
 	'btn_move' => 'In Ordner verschieben',
 	'msg_pm_deleted' => 'Es wurden %s PN geöschtet.',
@@ -110,7 +111,7 @@ You can delete this message with one click: %s
 	
 Kind Regards
 The %3$s Team',
-	
+
 	# v6.10.6
 	'list_pm_trashcan' => '0 Nachrichten im Mülleimer',
 

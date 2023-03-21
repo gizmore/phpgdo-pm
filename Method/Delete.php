@@ -6,15 +6,14 @@ use GDO\PM\PMMethod;
 
 /**
  * Delete a PM via tokenhash from mail.
- * 
+ *
  * @author gizmore
  */
 final class Delete extends Method
 {
+
 	use PMMethod;
-	
-	public function execute()
-	{
-	}
-	
+
+	public function execute() {}
+
 }

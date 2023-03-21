@@ -1,16 +1,16 @@
 <?php
 namespace GDO\PM;
 
-use GDO\UI\GDT_Page;
 use GDO\UI\GDT_Bar;
 use GDO\UI\GDT_Link;
+use GDO\UI\GDT_Page;
 
 /**
  * PM Methods draw a PM navbar.
  *
- * @author gizmore
  * @version 7.0.1
  * @since 6.2.0
+ * @author gizmore
  */
 trait PMMethod
 {

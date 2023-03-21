@@ -7,18 +7,19 @@ use GDO\User\GDO_User;
 
 /**
  * Resend the welcome PM.
- * 
- * @author gizmore
+ *
  * @version 7.0.1
  * @since 7.0.1
+ * @author gizmore
  */
 final class ResendWelcome extends Method
 {
+
 	public function execute()
 	{
 		$user = GDO_User::current();
 		WelcomePM::deliver($user);
 		return $this->redirectMessage('msg_welcome_pm_resent');
 	}
-	
+
 }

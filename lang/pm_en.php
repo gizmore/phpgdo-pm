@@ -1,5 +1,6 @@
 <?php
 namespace GDO\PM\lang;
+
 return [
 	'module_pm' => 'PM',
 	# Config Admin
@@ -110,10 +111,10 @@ You can delete this message with one click: %s
 	
 Kind Regards
 The %3$s Team',
-	
+
 	# v6.10.6
 	'list_pm_trashcan' => '0 messages in the trashcan',
-	
+
 	# v7.0.1
 	'mt_pm_reply' => 'Reply to PM',
 	'mt_pm_folder' => 'PM Folder',

@@ -7,17 +7,18 @@ use GDO\PM\PMMethod;
 /**
  * Main PM Functionality / Navigation.
  * Shows methods folders overview and selected folder contents.
- * 
- * @author gizmore
+ *
  * @version 7.0.1
  * @since 3.1.0
+ * @author gizmore
  */
 final class Overview extends Method
 {
+
 	use PMMethod;
-	
-	public function isUserRequired() : bool { return true; }
-	
+
+	public function isUserRequired(): bool { return true; }
+
 	public function execute()
 	{
 // 		if (isset($_REQUEST['delete']))
@@ -30,21 +31,21 @@ final class Overview extends Method
 // 		}
 		return $this->pmOverview();
 	}
-	
-	public function getMethodTitle() : string
-	{
-	    return t('btn_pm');
-	}
-	
+
 	private function pmOverview()
 	{
-	    $tVars = [
-	    	'folder' => Folder::make()->executeWithInputs($this->getInputs()),
-	        'folders' => Folders::make()->executeWithInputs($this->getInputs()),
-	    ];
+		$tVars = [
+			'folder' => Folder::make()->executeWithInputs($this->getInputs()),
+			'folders' => Folders::make()->executeWithInputs($this->getInputs()),
+		];
 		return $this->templatePHP('overview.php', $tVars);
 	}
-	
+
+	public function getMethodTitle(): string
+	{
+		return t('btn_pm');
+	}
+
 	##############
 	### Delete ###
 	##############
@@ -60,7 +61,7 @@ final class Overview extends Method
 // 			return $this->message('msg_pm_deleted', [$affected]);
 // 		}
 // 	}
-	
+
 // 	private function onMove()
 // 	{
 // 		$user = GDO_User::current();
@@ -75,5 +76,5 @@ final class Overview extends Method
 // 			return $this->message('msg_pm_moved', [$affected, $folder->renderName()]);
 // 		}
 // 	}
-	
+
 }

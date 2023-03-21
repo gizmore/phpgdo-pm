@@ -4,28 +4,31 @@ namespace GDO\PM\Method;
 use GDO\Core\Method;
 use GDO\Date\Time;
 use GDO\PM\GDO_PM;
+use GDO\PM\GDT_PM;
 use GDO\PM\PMMethod;
 use GDO\User\GDO_User;
-use GDO\PM\GDT_PM;
 
 /**
  * Read a PM.
- * 
- * @author gizmore
+ *
  * @version 7.0.1
+ * @author gizmore
  */
 final class Read extends Method
 {
+
 	use PMMethod;
-	
-	public function gdoParameters() : array
+
+	private GDO_PM $pm;
+
+	public function gdoParameters(): array
 	{
 		return [
 			GDT_PM::make('id')->notNull(),
 		];
 	}
-	
-	public function getMethodTitle() : string
+
+	public function getMethodTitle(): string
 	{
 		$user = GDO_User::current();
 		$pm = $this->getPM();
@@ -42,10 +45,8 @@ final class Read extends Method
 			return t('err_pm');
 		}
 	}
-	
-	private GDO_PM $pm;
-	
-	private function getPM() : GDO_PM
+
+	private function getPM(): GDO_PM
 	{
 		if (!isset($this->pm))
 		{
@@ -53,7 +54,7 @@ final class Read extends Method
 		}
 		return $this->pm;
 	}
-	
+
 	public function execute()
 	{
 		if (!($pm = $this->getPM()))
@@ -62,7 +63,7 @@ final class Read extends Method
 		}
 		return $this->pmRead($pm);
 	}
-	
+
 	public function pmRead(GDO_PM $pm)
 	{
 		if (!$pm->isRead())
@@ -74,5 +75,5 @@ final class Read extends Method
 		}
 		return $this->templatePHP('card_pm.php', ['pm' => $pm]);
 	}
-	
+
 }

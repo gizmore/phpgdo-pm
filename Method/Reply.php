@@ -1,32 +1,33 @@
 <?php
 namespace GDO\PM\Method;
 
+use GDO\Core\GDT;
+use GDO\Core\GDT_Tuple;
 use GDO\Form\GDT_AntiCSRF;
 use GDO\Form\GDT_Form;
 use GDO\Form\GDT_Submit;
 use GDO\Form\GDT_Validator;
 use GDO\PM\GDO_PM;
-use GDO\PM\Module_PM;
-use GDO\UI\GDT_Message;
-use GDO\Util\Strings;
 use GDO\PM\GDT_PM;
-use GDO\Core\GDT;
-use GDO\Core\GDT_Tuple;
+use GDO\PM\Module_PM;
 use GDO\UI\GDT_CardView;
+use GDO\UI\GDT_Message;
 use GDO\User\GDO_User;
+use GDO\Util\Strings;
 
 /**
  * Inherits the write method, but does not have a user field.
  * Instead it replies to an existing PM.
- * 
- * @author gizmore
+ *
  * @version 7.0.1
  * @since 7.0.l
+ * @author gizmore
  */
 class Reply extends Write
 {
+
 	protected GDO_PM $pm;
-	
+
 	protected bool $quote = false;
 
 	public function gdoParameters(): array
@@ -35,21 +36,21 @@ class Reply extends Write
 			GDT_PM::make('to')->notNull(),
 		];
 	}
-	
-	protected function getParent() : ?GDO_PM
+
+	protected function getParent(): ?GDO_PM
 	{
 		return $this->pm;
 	}
-	
-	protected function getRecipient() : GDO_User
+
+	protected function getRecipient(): GDO_User
 	{
 		return $this->pm->getOtherUser(GDO_User::current());
 	}
-	
+
 	public function createForm(GDT_Form $form): void
 	{
 		$this->pm = $this->gdoParameterValue('to');
-		list($title, $message) = $this->initialValues($form);
+		[$title, $message] = $this->initialValues($form);
 // 		$form->gdo($this->pm);
 		$form->addFields(
 			GDT_Validator::make()->validator($form, null, [$this, 'validateCanSend']),
@@ -79,10 +80,10 @@ class Reply extends Write
 			$msg = $this->pm->gdoColumn('pm_message')->getVarInput();
 			$message = GDT_Message::quoteMessage($by, $at, $msg);
 		}
-		
+
 		return [$title, $message];
 	}
-	
+
 	##############
 	### Action ###
 	##############
@@ -96,11 +97,11 @@ class Reply extends Write
 			$this->pm);
 		return $this->redirectMessage('msg_pm_sent', null, href('PM', 'Overview'));
 	}
-	
+
 	##############
 	### Render ###
 	##############
-	public function renderPage() : GDT
+	public function renderPage(): GDT
 	{
 		$response = GDT_Tuple::make();
 		$response->addField(GDT_CardView::make()->gdo($this->pm));
