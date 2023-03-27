@@ -44,7 +44,7 @@ final class GDT_PMFolder extends GDT_ObjectSelect
 	/**
 	 * The special two var cases inbox and outbox get a static folder that is the same for all users.
 	 */
-	public function toValue($var = null)
+	public function toValue(null|string|array $var): null|bool|int|float|string|object|array
 	{
 		if ($var === self::INBOX)
 		{

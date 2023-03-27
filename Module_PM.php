@@ -73,7 +73,7 @@ final class Module_PM extends GDO_Module
 		];
 	}
 
-	public function getUserSettings()
+	public function getUserSettings(): array
 	{
 		return [
 			GDT_Link::make('link_pm_center')->href(href('PM', 'Overview'))->noacl(),
@@ -83,7 +83,7 @@ final class Module_PM extends GDO_Module
 		];
 	}
 
-	public function getUserSettingBlobs()
+	public function getUserSettingBlobs(): array
 	{
 		return [
 			GDT_Message::make('signature')->max(4096)->label('signature')->noacl(),

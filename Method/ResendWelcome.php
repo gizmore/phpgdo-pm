@@ -1,6 +1,7 @@
 <?php
 namespace GDO\PM\Method;
 
+use GDO\Core\GDT;
 use GDO\Core\Method;
 use GDO\PM\WelcomePM;
 use GDO\User\GDO_User;
@@ -15,7 +16,7 @@ use GDO\User\GDO_User;
 final class ResendWelcome extends Method
 {
 
-	public function execute()
+	public function execute(): GDT
 	{
 		$user = GDO_User::current();
 		WelcomePM::deliver($user);

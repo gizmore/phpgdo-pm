@@ -2,6 +2,7 @@
 namespace GDO\PM\Method;
 
 use GDO\Core\GDO;
+use GDO\Core\GDT;
 use GDO\DB\Database;
 use GDO\DB\Query;
 use GDO\Form\GDT_Submit;
@@ -39,7 +40,7 @@ final class Trashcan extends MethodQueryTable
 		return GDO_PM::table();
 	}
 
-	public function execute()
+	public function execute(): GDT
 	{
 		if (isset($_REQUEST['delete']))
 		{

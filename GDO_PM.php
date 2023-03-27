@@ -2,6 +2,7 @@
 namespace GDO\PM;
 
 use GDO\Core\GDO;
+use GDO\Core\GDO_ErrorFatal;
 use GDO\Core\GDT_AutoInc;
 use GDO\Core\GDT_CreatedAt;
 use GDO\Core\GDT_DeletedAt;
@@ -139,6 +140,10 @@ final class GDO_PM extends GDO
 		elseif ($user->getID() === $this->getToID())
 		{
 			return $this->getSender();
+		}
+		else
+		{
+			throw new GDO_ErrorFatal('err_pm_user_no_belong', [$user->renderUserName()]);
 		}
 	}
 

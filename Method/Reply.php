@@ -87,7 +87,7 @@ class Reply extends Write
 	##############
 	### Action ###
 	##############
-	public function formValidated(GDT_Form $form)
+	public function formValidated(GDT_Form $form): GDT
 	{
 		$from = GDO_User::current();
 		$to = $this->pm->getOtherUser($from);

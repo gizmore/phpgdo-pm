@@ -11,9 +11,9 @@ use GDO\User\GDO_User;
 final class Folders extends MethodTable
 {
 
-	public function isFiltered() { return false; }
+	public function isFiltered(): bool { return false; }
 
-	public function isPaginated() { return false; }
+	public function isPaginated(): bool { return false; }
 
 	public function isUserRequired(): bool { return true; }
 

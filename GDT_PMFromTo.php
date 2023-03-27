@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 namespace GDO\PM;
 
 use GDO\Core\GDT;
 use GDO\Core\WithGDO;
+use GDO\DB\Query;
 use GDO\Table\GDT_Filter;
 use GDO\UI\WithLabel;
 
@@ -16,8 +18,6 @@ final class GDT_PMFromTo extends GDT
 
 	use WithGDO;
 	use WithLabel;
-
-	public function displayHeaderLabel() { return ''; }
 
 	public function renderHTML(): string
 	{

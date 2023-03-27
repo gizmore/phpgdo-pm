@@ -2,6 +2,7 @@
 namespace GDO\PM\Method;
 
 use GDO\Core\GDO;
+use GDO\Core\GDT;
 use GDO\DB\Query;
 use GDO\PM\GDO_PM;
 use GDO\PM\GDO_PMFolder;
@@ -35,9 +36,10 @@ final class Folder extends MethodQueryList
 		];
 	}
 
-	public function onMethodInit()
+	public function onMethodInit(): ?GDT
 	{
 		$this->folder = $this->gdoParameterValue('folder');
+		return null;
 	}
 
 	public function gdoHeaders(): array
@@ -67,7 +69,7 @@ final class Folder extends MethodQueryList
 		return t('pm_folder', [$this->folder->gdoDisplay('pmf_name'), $table->getResult()->numRows()]);
 	}
 
-	public function getTableTitle()
+	public function getTableTitle(): string
 	{
 		return $this->getMethodTitle();
 	}

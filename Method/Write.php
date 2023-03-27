@@ -61,7 +61,7 @@ class Write extends MethodForm
 		return [$username, $title, $message];
 	}
 
-	public function formValidated(GDT_Form $form)
+	public function formValidated(GDT_Form $form): GDT
 	{
 		$this->deliver(GDO_User::current(), $form->getFormValue('to'), $form->getFormVar('pm_title'), $form->getFormVar('pm_message'));
 		return $this->redirectMessage('msg_pm_sent', null, href('PM', 'Overview'));

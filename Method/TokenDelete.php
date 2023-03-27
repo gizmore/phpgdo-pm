@@ -1,6 +1,7 @@
 <?php
 namespace GDO\PM\Method;
 
+use GDO\Core\GDT;
 use GDO\Core\GDT_Object;
 use GDO\Core\GDT_Token;
 use GDO\Core\Method;
@@ -30,7 +31,7 @@ final class TokenDelete extends Method
 		];
 	}
 
-	public function execute()
+	public function execute(): GDT
 	{
 		if (
 			(!($pm = $this->getPM())) ||

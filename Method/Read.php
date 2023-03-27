@@ -1,6 +1,7 @@
 <?php
 namespace GDO\PM\Method;
 
+use GDO\Core\GDT;
 use GDO\Core\Method;
 use GDO\Date\Time;
 use GDO\PM\GDO_PM;
@@ -55,7 +56,7 @@ final class Read extends Method
 		return $this->pm;
 	}
 
-	public function execute()
+	public function execute(): GDT
 	{
 		if (!($pm = $this->getPM()))
 		{

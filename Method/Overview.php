@@ -1,6 +1,7 @@
 <?php
 namespace GDO\PM\Method;
 
+use GDO\Core\GDT;
 use GDO\Core\Method;
 use GDO\PM\PMMethod;
 
@@ -19,7 +20,7 @@ final class Overview extends Method
 
 	public function isUserRequired(): bool { return true; }
 
-	public function execute()
+	public function execute(): GDT
 	{
 // 		if (isset($_REQUEST['delete']))
 // 		{

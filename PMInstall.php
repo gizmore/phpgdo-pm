@@ -3,6 +3,7 @@ namespace GDO\PM;
 
 use GDO\Date\Time;
 use GDO\User\GDO_User;
+use GDO\User\GDT_UserType;
 
 /**
  * Install INBOX/OUTBOX and BOT USER.
@@ -50,7 +51,7 @@ final class PMInstall
 		$user = GDO_User::blank([
 			'user_name' => '_PM_BOT_',
 			'user_real_name' => GDO_BOT_NAME,
-			'user_type' => GDO_User::BOT,
+			'user_type' => GDT_UserType::BOT,
 			'user_email' => GDO_BOT_EMAIL,
 			'user_register_time' => Time::getDate(),
 		]);

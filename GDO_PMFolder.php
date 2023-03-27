@@ -43,7 +43,7 @@ final class GDO_PMFolder extends GDO
 			'pmf_id' => $fid,
 			'pmf_user' => $uid,
 			'pmf_name' => t($textKey),
-			'pmf_count' => GDO_PM::table()->countWhere("pm_folder=$fid AND pm_owner=$uid AND pm_deleted_at IS NULL"),
+			'pmf_count' => (string) GDO_PM::table()->countWhere("pm_folder=$fid AND pm_owner=$uid AND pm_deleted_at IS NULL"),
 		]);
 	}
 
