@@ -32,7 +32,7 @@ final class GDT_PM extends GDT_Object
 	public function plugVars(): array
 	{
 		$uid = GDO_User::current()->getID();
-		$pmid = $this->table->select('pm_id')->where("pm_owner=$uid")->exec()->fetchValue();
+		$pmid = $this->table->select('pm_id')->where("pm_owner=$uid")->exec()->fetchVar();
 		return [
 			[$this->getName() => $pmid],
 		];
