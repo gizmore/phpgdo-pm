@@ -2,7 +2,7 @@
 namespace GDO\PM;
 
 use GDO\Core\GDO;
-use GDO\Core\GDO_ErrorFatal;
+use GDO\Core\GDO_ExceptionFatal;
 use GDO\Core\GDT_AutoInc;
 use GDO\Core\GDT_CreatedAt;
 use GDO\Core\GDT_DeletedAt;
@@ -143,7 +143,7 @@ final class GDO_PM extends GDO
 		}
 		else
 		{
-			throw new GDO_ErrorFatal('err_pm_user_no_belong', [$user->renderUserName()]);
+			throw new GDO_ExceptionFatal('err_pm_user_no_belong', [$user->renderUserName()]);
 		}
 	}
 

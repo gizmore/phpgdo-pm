@@ -30,7 +30,7 @@ final class GDT_PMFolder extends GDT_ObjectSelect
 		$this->emptyLabel('choose_folder_move');
 	}
 
-	public function getChoices(): array
+	protected function getChoices(): array
 	{
 		$user = isset($this->gdo) ? $this->gdo : GDO_User::current();
 		$choices = [];

@@ -35,7 +35,7 @@ class Write extends MethodForm
 
 	protected GDO_PM $pmTo;
 
-	public function createForm(GDT_Form $form): void
+	protected function createForm(GDT_Form $form): void
 	{
 		[$username, $title, $message] = $this->initialValues($form);
 		$table = GDO_PM::table();

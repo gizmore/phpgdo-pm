@@ -10,7 +10,7 @@ use GDO\Form\GDT_Validator;
 use GDO\PM\GDO_PM;
 use GDO\PM\GDT_PM;
 use GDO\PM\Module_PM;
-use GDO\UI\GDT_CardView;
+use GDO\UI\GDT_HTML;
 use GDO\UI\GDT_Message;
 use GDO\User\GDO_User;
 use GDO\Util\Strings;
@@ -47,11 +47,10 @@ class Reply extends Write
 		return $this->pm->getOtherUser(GDO_User::current());
 	}
 
-	public function createForm(GDT_Form $form): void
+	protected function createForm(GDT_Form $form): void
 	{
 		$this->pm = $this->gdoParameterValue('to');
 		[$title, $message] = $this->initialValues($form);
-// 		$form->gdo($this->pm);
 		$form->addFields(
 			GDT_Validator::make()->validator($form, null, [$this, 'validateCanSend']),
 			$this->pm->gdoColumnCopy('pm_title')->initial($title),
@@ -104,7 +103,7 @@ class Reply extends Write
 	public function renderPage(): GDT
 	{
 		$response = GDT_Tuple::make();
-		$response->addField(GDT_CardView::make()->gdo($this->pm));
+		$response->addField(GDT_HTML::make()->var($this->pm?->renderCard()));
 		$response->addField(parent::renderPage());
 		return $response;
 	}
