@@ -8,6 +8,6 @@ use GDO\Table\GDT_Filter;
 /** @var $f GDT_Filter * */
 ?>
 <input
-        name="f[<?=$field->getName()?>]"
-        type="text"
-        value="<?=html($field->filterVar($f));?>"/>
+	name="f[<?=$field->getName()?>]"
+	type="text"
+	value="<?=html($field->filterVar($f));?>"/>

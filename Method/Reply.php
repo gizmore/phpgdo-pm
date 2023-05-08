@@ -63,7 +63,7 @@ class Reply extends Write
 		);
 	}
 
-	protected function initialValues(GDT_Form $form)
+	protected function initialValues(GDT_Form $form): array
 	{
 		# Title
 		$title = $this->pm->gdoVar('pm_title');

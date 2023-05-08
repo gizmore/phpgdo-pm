@@ -4,7 +4,6 @@ namespace GDO\PM;
 
 use GDO\Core\GDT;
 use GDO\Core\WithGDO;
-use GDO\DB\Query;
 use GDO\Table\GDT_Filter;
 use GDO\UI\WithLabel;
 
