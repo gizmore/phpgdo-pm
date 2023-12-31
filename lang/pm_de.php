@@ -37,7 +37,6 @@ return [
 	'outbox_name' => 'Gesendet',
 	'btn_restore' => 'Wiederherstellen',
 	'btn_empty' => 'Leeren',
-	'btn_delete' => 'Löschen',
 	'btn_pm' => 'Private Nachrichten',
 	'btn_pm_unread' => 'Private Nachrichten [%s]',
 	'msg_pm_destroyed' => '%s PN wurde(n) gelöscht.',
@@ -125,4 +124,6 @@ The %3$s Team',
 	'msg_welcome_pm_resent' => 'Your Welcome PM has been resent.',
 	'div_info_privacy_pm' => 'Private Nachrichten sind nicht verschlüsselt. Dies lässt sich z.Zt. auch nicht einstellen.',
 	'pm_from' => 'Von %s, vor/am %s',
+
+    'recipient' => 'An',
 ];

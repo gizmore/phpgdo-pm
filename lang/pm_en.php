@@ -37,7 +37,6 @@ return [
 	'outbox_name' => 'Sent',
 	'btn_restore' => 'Restore',
 	'btn_empty' => 'Empty',
-	'btn_delete' => 'Delete',
 	'btn_pm' => 'Private Messages',
 	'btn_pm_unread' => 'Private Messages [%s]',
 	'msg_pm_destroyed' => '%s PMs have been finally deleted.',
@@ -125,4 +124,6 @@ The %3$s Team',
 	'msg_welcome_pm_resent' => 'Your Welcome PM has been resent.',
 	'div_info_privacy_pm' => 'Private messages are not encrypted and could be read by an administrator. There is currently no other option.',
 	'pm_from' => 'From %s, %s ago',
+
+    'recipient' => 'To',
 ];

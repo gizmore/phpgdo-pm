@@ -120,7 +120,7 @@ class Write extends MethodForm
 	{
 		[$username, $title, $message] = $this->initialValues($form);
 		$table = GDO_PM::table();
-		$to = GDT_User::make('to')->notNull()->initial($username)->withCompletion();
+		$to = GDT_User::make('recipient')->notNull()->initial($username)->withCompletion();
 		$form->addFields(
 			$to,
 			GDT_Validator::make()->validator($form, $to, [$this, 'validateCanSend']),
