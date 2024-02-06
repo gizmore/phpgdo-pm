@@ -177,7 +177,7 @@ final class Module_PM extends GDO_Module
 	public function hookCreateCardUserProfile(GDT_Card $card)
 	{
 		$user = $card->gdo->getUser();
-		$linkPM = GDT_Link::make()->href(href('PM', 'Write', '&to=' . $user->renderUserName()))->text('link_write_pm')->icon('write');
+		$linkPM = GDT_Link::make()->href(href('PM', 'Write', '&to=' . $user->renderUserName()))->text('link_write_pm')->icon('write')->noFollow();
 		$card->actions()->addField($linkPM);
 	}
 
