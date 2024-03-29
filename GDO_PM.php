@@ -11,6 +11,7 @@ use GDO\Core\GDT_Object;
 use GDO\Core\GDT_Template;
 use GDO\Date\GDT_Timestamp;
 use GDO\Date\Time;
+use GDO\PM\Method\Write;
 use GDO\UI\GDT_Message;
 use GDO\UI\GDT_Title;
 use GDO\User\GDO_User;
@@ -53,11 +54,17 @@ final class GDO_PM extends GDO
 		return $cache;
 	}
 
+    public static function deliver(GDO_User $from, GDO_User $to, string $title, string $body, bool $withHooks=true): bool
+    {
+        Write::make()->deliver($from, $to, $title, $body, null, $withHooks);
+        return true;
+    }
+
 	##############
 	### Render ###
 	##############
 
-	public function gdoCached(): bool { return false; }
+    public function gdoCached(): bool { return false; }
 
 	public function isTestable(): bool
 	{

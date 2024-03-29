@@ -1,11 +1,14 @@
 <?php
 namespace GDO\PM\tpl;
 
-/** @var $field GDT_Template * */
+/**
+ * Render a PM Folder link to open the folder.
+ * @var GDT_Template $field  *
+ */
 
 use GDO\Core\GDT_Template;
 use GDO\UI\GDT_Link;
 
-$id = $field->getVar();
-
-echo GDT_Link::make()->text($field->labelKey)->href(href('PM', 'Overview', '&folder=' . $id))->render();
+echo GDT_Link::make()->textRaw($field->gdo->renderName(), true)
+    ->href(href('PM', 'Overview', "&folder={$field->gdo->getID()}"))
+    ->render();

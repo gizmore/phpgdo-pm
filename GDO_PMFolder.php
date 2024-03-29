@@ -30,11 +30,11 @@ final class GDO_PMFolder extends GDO
 	### GDO ###
 	###########
 
-	public static function init(): void
-	{
-		self::$INBOX = self::getDefaultFolder(self::INBOX, 'inbox_name');
-		self::$OUTBOX = self::getDefaultFolder(self::OUTBOX, 'outbox_name');
-	}
+//	public static function init(): void
+//	{
+//		self::$INBOX = self::getDefaultFolder(self::INBOX, 'inbox_name');
+//		self::$OUTBOX = self::getDefaultFolder(self::OUTBOX, 'outbox_name');
+//	}
 
 	private static function getDefaultFolder(string $fid, string $textKey): self
 	{
@@ -53,7 +53,12 @@ final class GDO_PMFolder extends GDO
 
 	public function renderName(): string { return $this->gdoDisplay('pmf_name'); }
 
-	public function memCached(): bool { return false; }
+    public function renderList(): string
+    {
+        return $this->renderName();
+    }
+
+    public function memCached(): bool { return false; }
 
 	##############
 	### Events ###
@@ -81,7 +86,7 @@ final class GDO_PMFolder extends GDO
 	public static function getFolders(string $userid): array
 	{
 		return array_merge(
-			GDO_PMFolder::getDefaultFolders(),
+			self::getDefaultFolders(),
 			self::table()->select()->where('pmf_user=' . quote($userid))->exec()->fetchAllObjects(),
 		);
 	}
@@ -111,25 +116,25 @@ final class GDO_PMFolder extends GDO
 	/**
 	 * Get a specified folder for a user.
 	 */
-	public static function getByIdAndUser(string $folderId, GDO_User $user): ?self
-	{
-		$folderId = $folderId;
-		switch ($folderId)
-		{
-			case self::INBOX:
-				return self::getInBox();
-			case self::OUTBOX:
-				return self::getOutBox();
-		}
-		if ($folder = self::table()->find($folderId, false))
-		{
-			if ($folder->getUserID() === $user->getID())
-			{
-				return $folder;
-			}
-		}
-		return null;
-	}
+//	public static function getByIdAndUser(string $folderId, GDO_User $user): ?self
+//	{
+//		$folderId = $folderId;
+//		switch ($folderId)
+//		{
+//			case self::INBOX:
+//				return self::getInBox();
+//			case self::OUTBOX:
+//				return self::getOutBox();
+//		}
+//		if ($folder = self::table()->find($folderId, false))
+//		{
+//			if ($folder->getUserID() === $user->getID())
+//			{
+//				return $folder;
+//			}
+//		}
+//		return null;
+//	}
 
 	public function getUserID(): string { return $this->gdoVar('pmf_user'); }
 

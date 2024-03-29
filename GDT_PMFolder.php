@@ -8,7 +8,7 @@ use GDO\User\GDO_User;
 /**
  * A PM folder.
  *
- * @version 7.0.1
+ * @version 7.0.3
  * @since 3.5.0
  * @author gizmore
  */
@@ -32,8 +32,8 @@ final class GDT_PMFolder extends GDT_ObjectSelect
 
 	protected function getChoices(): array
 	{
-		$user = isset($this->gdo) ? $this->gdo : GDO_User::current();
-		$choices = [];
+        $choices = [];
+        $user = $this->gdo ?? GDO_User::current();
 		foreach (GDO_PMFolder::getFolders($user->getID()) as $folder)
 		{
 			$choices[$folder->getID()] = $folder;

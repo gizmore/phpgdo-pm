@@ -148,13 +148,13 @@ class Write extends MethodForm
 
 	public function formValidated(GDT_Form $form): GDT
 	{
-		$this->deliver(GDO_User::current(), $form->getFormValue('to'),
+		$this->deliver(GDO_User::current(), $form->getFormValue('recipient'),
 			$form->getFormVar('pm_title'), $form->getFormVar('pm_message'));
 		return $this->redirectMessage('msg_pm_sent', null, href('PM', 'Overview'));
 	}
 
-	public function deliver(GDO_User $from, GDO_User $to, string $title, string $message, GDO_PM $parent = null)
-	{
+	public function deliver(GDO_User $from, GDO_User $to, string $title, string $message, GDO_PM $parent = null, bool $withHooks=true): void
+    {
 		$from->persistent();
 		$to->persistent();
 		$pmFrom = GDO_PM::blank([
@@ -181,6 +181,11 @@ class Write extends MethodForm
 		$pmFrom->saveVar('pm_other', $pmTo->getID());
 		$to->tempUnset('gdo_pm_unread');
 
+        if ($withHooks)
+        {
+            GDT_Hook::callWithIPC('PMSent', $pmFrom, $pmTo);
+        }
+
 		# Copy to next func
 		$this->pmTo = $pmTo;
 	}
@@ -197,7 +202,7 @@ public function afterExecute(): void
 				{
 					GDT_Page::instance()->topResponse()->addField($response);
 				}
-				GDT_Hook::callWithIPC('PMSent', $pmTo);
+//				GDT_Hook::callWithIPC('PMSent', $this->pmTo->getOtherPM(), $pmTo);
 			}
 		}
 	}

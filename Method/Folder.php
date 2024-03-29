@@ -2,6 +2,8 @@
 namespace GDO\PM\Method;
 
 use GDO\Core\GDO;
+use GDO\Core\GDO_ArgError;
+use GDO\Core\GDO_DBException;
 use GDO\Core\GDT;
 use GDO\DB\Query;
 use GDO\PM\GDO_PM;
@@ -21,7 +23,7 @@ use GDO\User\GDO_User;
 final class Folder extends MethodQueryList
 {
 
-	private GDO_PMFolder $folder;
+//	private GDO_PMFolder $folder;
 
 	public function gdoTable(): GDO { return GDO_PM::table(); }
 
@@ -36,11 +38,19 @@ final class Folder extends MethodQueryList
 		];
 	}
 
-	public function onMethodInit(): ?GDT
-	{
-		$this->folder = $this->gdoParameterValue('folder');
-		return null;
-	}
+//	public function onMethodInit(): ?GDT
+//	{
+//		$this->folder = $this->gdoParameterValue('folder');
+//		return null;
+//	}
+
+    /**
+     * @throws GDO_ArgError
+     */
+    public function getFolder(): GDO_PMFolder
+    {
+        return $this->gdoParameterValue('folder');
+    }
 
 	public function gdoHeaders(): array
 	{
@@ -54,22 +64,33 @@ final class Folder extends MethodQueryList
 		];
 	}
 
-	public function getQuery(): Query
+    /**
+     * @throws GDO_ArgError
+     */
+    public function getQuery(): Query
 	{
 		$user = GDO_User::current();
 		return GDO_PM::table()->select()->
 		where('gdo_pm.pm_owner=' . $user->getID())->
-		where('gdo_pm.pm_folder=' . $this->folder->getID())->
+		where('gdo_pm.pm_folder=' . $this->getFolder()->getID())->
 		where('gdo_pm.pm_deleted_at IS NULL');
 	}
 
-	public function getMethodTitle(): string
+    /**
+     * @throws GDO_DBException
+     * @throws GDO_ArgError
+     */
+    public function getMethodTitle(): string
 	{
 		$table = $this->getTable();
-		return t('pm_folder', [$this->folder->gdoDisplay('pmf_name'), $table->getResult()->numRows()]);
+		return t('pm_folder', [$this->getFolder()->gdoDisplay('pmf_name'), $table->getResult()->numRows()]);
 	}
 
-	public function getTableTitle(): string
+    /**
+     * @throws GDO_DBException
+     * @throws GDO_ArgError
+     */
+    public function getTableTitle(): string
 	{
 		return $this->getMethodTitle();
 	}
