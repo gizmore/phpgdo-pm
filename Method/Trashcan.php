@@ -103,7 +103,7 @@ final class Trashcan extends MethodQueryTable
 		];
 	}
 
-	public function getQuery(): Query
+	public function gdoQuery(): Query
 	{
 		$user = GDO_User::current();
 		return GDO_PM::table()->select()->

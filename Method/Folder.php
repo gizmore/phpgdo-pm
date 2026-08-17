@@ -67,7 +67,7 @@ final class Folder extends MethodQueryList
     /**
      * @throws GDO_ArgError
      */
-    public function getQuery(): Query
+    public function gdoQuery(): Query
 	{
 		$user = GDO_User::current();
 		return GDO_PM::table()->select()->
