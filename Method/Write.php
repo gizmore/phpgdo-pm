@@ -113,7 +113,7 @@ class Write extends MethodForm
 
 	protected function getRecipient(): GDO_User
 	{
-		return $this->getForm()->getFormValue('to');
+		return $this->getForm()->getFormValue('recipient');
 	}
 
 	protected function createForm(GDT_Form $form): void
