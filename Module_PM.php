@@ -8,7 +8,7 @@ use GDO\Core\GDT_Name;
 use GDO\Core\GDT_String;
 use GDO\Date\GDT_Duration;
 use GDO\Register\GDO_UserActivation;
-use GDO\UI\GDT_Card;
+use GDO\UI\GDT_Bar;
 use GDO\UI\GDT_Divider;
 use GDO\UI\GDT_Link;
 use GDO\UI\GDT_Message;
@@ -174,11 +174,14 @@ final class Module_PM extends GDO_Module
 	### Hooks ###
 	#############
 
-	public function hookCreateCardUserProfile(GDT_Card $card)
+	public function hookProfileMenubar(GDT_Bar $bar, GDO_User $user): void
 	{
-		$user = $card->gdo->getUser();
-		$linkPM = GDT_Link::make()->href(href('PM', 'Write', '&to=' . $user->renderUserName()))->text('link_write_pm')->icon('write')->noFollow();
-		$card->actions()->addField($linkPM);
+		if (GDO_User::current()->isUser() && $user->isUser())
+		{
+			$bar->addField(GDT_Link::make('link_write_pm')
+				->href(href('PM', 'Write', '&to=' . $user->renderUserName()))
+				->icon('write')->noFollow());
+		}
 	}
 
 	public function hookUserActivated(GDO_User $user, GDO_UserActivation $activation = null)
